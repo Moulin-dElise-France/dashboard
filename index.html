@@ -118,6 +118,31 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 .camp-arrow{color:var(--gold-light);opacity:.4;transition:all .3s}
 .camp-arrow svg{width:18px;height:18px}
 
+/* ══ CALENDAR SECTION ══ */
+.cal-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.cal-entity-pills{display:flex;gap:6px;flex-wrap:wrap}
+.cal-entity-pill{font-family:inherit;font-size:12px;font-weight:600;padding:7px 16px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;border-radius:20px;transition:all .2s}
+.cal-entity-pill:hover{border-color:var(--gold);color:var(--gold-light)}
+.cal-entity-pill.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.cal-month-nav{display:flex;align-items:center;gap:12px}
+.cal-month-title{font-size:15px;font-weight:700;color:var(--text-primary);min-width:160px;text-align:center}
+.cal-btn{width:34px;height:34px;border:1px solid var(--border);background:rgba(191,141,80,0.06);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text-secondary)}
+.cal-btn:hover{border-color:var(--gold);color:var(--gold-light)}
+.cal-btn:disabled{opacity:.3;cursor:default}
+.cal-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cal-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(191,141,80,0.03);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cal-table thead th{font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.6px;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.06);border-bottom:1px solid var(--border)}
+.cal-table thead th:first-child{text-align:left;padding-left:16px}
+.cal-table tbody td{font-size:13px;font-weight:500;padding:9px 10px;text-align:right;border-bottom:1px solid rgba(191,141,80,0.06);color:var(--text-primary);font-variant-numeric:tabular-nums}
+.cal-table tbody td:first-child{text-align:left;font-weight:600;color:var(--text-secondary);padding-left:16px;font-size:12px}
+.cal-table tbody tr:last-child td{border-bottom:none}
+.cal-table tbody tr:hover td{background:rgba(191,141,80,0.08)}
+.cal-table tbody tr.empty td{opacity:.3}
+.cal-table tfoot td{font-size:13px;font-weight:800;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.1);border-top:2px solid var(--gold);color:var(--text-primary)}
+.cal-table tfoot td:first-child{text-align:left;padding-left:16px;color:var(--gold)}
+.cal-table td.val-cost{color:#e74c3c}
+.cal-table td.val-leads{color:var(--gold-light);font-weight:700}
+
 /* ══ LOADING ══ */
 .loading{text-align:center;padding:60px 20px}
 .loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
@@ -201,9 +226,30 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
   <div class="campaigns-grid" id="campaignsGrid" style="display:none"></div>
 </section>
 
+<!-- ══ CALENDRIER DYNAMIQUE ══ -->
+<section class="section" id="calSection" style="display:none">
+  <div class="section-header">
+    <span class="section-title">Calendrier dynamique</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="cal-controls">
+    <div class="cal-entity-pills" id="calEntityPills"></div>
+    <div class="cal-month-nav">
+      <button class="cal-btn" id="calPrev" onclick="calChangeMonth(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <span class="cal-month-title" id="calMonthTitle"></span>
+      <button class="cal-btn" id="calNext" onclick="calChangeMonth(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <div class="cal-table-wrap">
+    <table class="cal-table" id="calTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+  </div>
+</section>
+
 <!-- ══ FOOTER ══ -->
 <footer class="footer">
-  Le Moulin d'Elise — Portail Marketing · Donnees <a href="#">Supermetrics</a> · Concu par HZ Dev
+  Le Moulin d'Elise — Portail Marketing · Donnees <a href="#">Supermetrics</a>
 </footer>
 
 </div>
@@ -249,7 +295,6 @@ function computeTotals(rows){
 }
 
 function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
-function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0})+' \u20ac'}
 
 const ICONS={
   globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
@@ -277,6 +322,23 @@ async function loadData(){
     console.error('Erreur:',e);
     document.querySelector('.loading-text').innerHTML='Erreur de chargement: '+e.message+'<br><small style="color:var(--text-tertiary)">Actualisez la page (Ctrl+Maj+R)</small>';
   }
+}
+
+const MONTHS_FR=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+let calEntity='national',calMonth='',calAllMonths=[];
+
+function processDaily(key){
+  const rows=DATA[key].rows;
+  const byDate={};
+  rows.forEach(r=>{
+    const date=r['Date'];
+    if(!byDate[date])byDate[date]={impressions:0,clicks:0,cost:0,leads:0,reactions:0};
+    const d=byDate[date];
+    d.impressions+=parseFR(r['Impressions']);d.clicks+=parseFR(r['Clicks (all)']);d.cost+=parseFR(r['Cost (EUR)']);d.leads+=parseFR(r['On-Facebook leads']);d.reactions+=parseFR(r['Post reactions']);
+  });
+  DATA[key].byDate=byDate;
+  const dates=Object.keys(byDate).sort();
+  DATA[key].months=[...new Set(dates.map(d=>d.substring(0,7)))].sort();
 }
 
 function render(){
@@ -326,12 +388,70 @@ function render(){
       </a>
     `;
   });
+
+  // Process daily data & init calendar
+  Object.keys(DATA).forEach(processDaily);
+  document.getElementById('calSection').style.display='';
+  initCalendar();
 }
+
+/* ── CALENDAR ── */
+function initCalendar(){
+  const pills=document.getElementById('calEntityPills');
+  pills.innerHTML=ENTITIES.map(e=>`<button class="cal-entity-pill${e.key===calEntity?' active':''}" onclick="setCalEntity('${e.key}')">${e.label}</button>`).join('');
+  const d=DATA[calEntity];
+  calAllMonths=d.months;
+  calMonth=calAllMonths[calAllMonths.length-1]||'2026-02';
+  renderCalTable();
+}
+function setCalEntity(key){
+  calEntity=key;
+  document.querySelectorAll('.cal-entity-pill').forEach(b=>b.classList.toggle('active',b.textContent===ENTITIES.find(e=>e.key===key).label));
+  calAllMonths=DATA[key].months;
+  calMonth=calAllMonths[calAllMonths.length-1]||'2026-02';
+  renderCalTable();
+}
+function calChangeMonth(delta){
+  const idx=calAllMonths.indexOf(calMonth);const ni=idx+delta;
+  if(ni<0||ni>=calAllMonths.length)return;
+  calMonth=calAllMonths[ni];renderCalTable();
+}
+function renderCalTable(){
+  if(!calMonth||!DATA[calEntity])return;
+  const bd=DATA[calEntity].byDate;
+  const [y,m]=calMonth.split('-').map(Number);
+  const daysInMonth=new Date(y,m,0).getDate();
+  const monthName=MONTHS_FR[m-1]+' '+y;
+  document.getElementById('calMonthTitle').textContent=monthName;
+  const idx=calAllMonths.indexOf(calMonth);
+  document.getElementById('calPrev').disabled=(idx<=0);
+  document.getElementById('calNext').disabled=(idx>=calAllMonths.length-1);
+  const hasLeads=calEntity==='national';
+  const cols=['Impressions','Clics','Depenses','Reactions'];
+  if(hasLeads)cols.push('Leads');
+  document.querySelector('#calTable thead').innerHTML='<tr><th>Jour</th>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
+  const tbody=document.querySelector('#calTable tbody');tbody.innerHTML='';
+  const totals={imp:0,clk:0,cost:0,react:0,leads:0};
+  for(let day=1;day<=daysInMonth;day++){
+    const ds=y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    const dd=bd[ds];
+    const has=dd&&(dd.impressions>0||dd.clicks>0||dd.cost>0);
+    if(has){totals.imp+=dd.impressions;totals.clk+=dd.clicks;totals.cost+=dd.cost;totals.react+=dd.reactions;totals.leads+=dd.leads}
+    const dl=String(day).padStart(2,'0')+' '+MONTHS_FR[m-1].substring(0,3);
+    let tds=`<td>${dl}</td><td>${has?fmt(dd.impressions):'-'}</td><td>${has?fmt(dd.clicks):'-'}</td><td class="val-cost">${has?fmtE(dd.cost):'-'}</td><td>${has?fmt(dd.reactions):'-'}</td>`;
+    if(hasLeads)tds+=`<td class="val-leads">${has&&dd.leads?fmt(dd.leads):'-'}</td>`;
+    tbody.innerHTML+=`<tr class="${has?'':'empty'}">${tds}</tr>`;
+  }
+  const tfoot=document.querySelector('#calTable tfoot');
+  let ftds=`<td>Total ${monthName}</td><td>${fmt(totals.imp)}</td><td>${fmt(totals.clk)}</td><td class="val-cost">${fmtE(totals.cost)}</td><td>${fmt(totals.react)}</td>`;
+  if(hasLeads)ftds+=`<td class="val-leads">${fmt(totals.leads)}</td>`;
+  tfoot.innerHTML=`<tr>${ftds}</tr>`;
+}
+function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
 
 /* ── HEADER DATE ── */
 const now=new Date();
-const MONTHS=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
-document.getElementById('headerDate').textContent=now.getDate()+' '+MONTHS[now.getMonth()]+' '+now.getFullYear();
+document.getElementById('headerDate').textContent=now.getDate()+' '+MONTHS_FR[now.getMonth()]+' '+now.getFullYear();
 
 loadData();
 </script>
