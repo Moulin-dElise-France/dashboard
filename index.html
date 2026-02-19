@@ -328,27 +328,6 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
   <div class="campaigns-grid" id="campaignsGrid" style="display:none"></div>
 </section>
 
-<!-- ══ CALENDRIER JOUR PAR JOUR ══ -->
-<section class="section" id="daySection" style="display:none">
-  <div class="section-header">
-    <span class="section-title">Detail jour par jour</span>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="day-controls">
-    <div class="day-entity-pills" id="dayEntityPills"></div>
-    <div class="day-month-nav">
-      <button class="day-btn" id="dayPrev" onclick="dayChangeMonth(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <span class="day-month-title" id="dayMonthTitle"></span>
-      <button class="day-btn" id="dayNext" onclick="dayChangeMonth(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-    </div>
-  </div>
-
-  <div class="day-table-wrap">
-    <table class="day-table" id="dayTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
-  </div>
-</section>
-
 <!-- ══ FOOTER ══ -->
 <footer class="footer">
   Le Moulin d'Elise — Portail Marketing &middot; Donnees <a href="#">Supermetrics</a>
@@ -397,8 +376,6 @@ let calSelStartDay=null;
 let calSelEndDay=null;
 let calOpen=false;
 
-/* ══ DAY TABLE STATE ══ */
-let dayEntity='national',dayMonth='',dayAllMonths=[];
 
 /* ══ CSV PARSER ══ */
 function parseCSV(text){
@@ -476,9 +453,6 @@ async function loadData(){
 function renderAll(){
   renderStats();
   renderCards();
-  processDaily();
-  document.getElementById('daySection').style.display='';
-  initDayTable();
 }
 
 function renderStats(){
@@ -526,76 +500,6 @@ function renderCards(){
       +'<div class="camp-bottom"><span class="camp-link">Voir le dashboard complet</span><div class="camp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div></div>'
     +'</a>';
   });
-}
-
-/* ══ DAY-BY-DAY TABLE ══ */
-function processDaily(){
-  Object.keys(DATA).forEach(key=>{
-    const rows=DATA[key].rows;
-    const byDate={};
-    rows.forEach(r=>{
-      const date=r['Date'];
-      if(!byDate[date])byDate[date]={impressions:0,clicks:0,cost:0,leads:0,reactions:0};
-      const d=byDate[date];
-      d.impressions+=parseFR(r['Impressions']);d.clicks+=parseFR(r['Clicks (all)']);d.cost+=parseFR(r['Cost (EUR)']);d.leads+=parseFR(r['On-Facebook leads']);d.reactions+=parseFR(r['Post reactions']);
-    });
-    DATA[key].byDate=byDate;
-    DATA[key].months=[...new Set(Object.keys(byDate).sort().map(d=>d.substring(0,7)))].sort();
-  });
-}
-
-function initDayTable(){
-  const pills=document.getElementById('dayEntityPills');
-  pills.innerHTML=ENTITIES.map(e=>'<button class="day-entity-pill'+(e.key===dayEntity?' active':'')+'" onclick="setDayEntity(\''+e.key+'\')">'+e.label+'</button>').join('');
-  dayAllMonths=DATA[dayEntity].months;
-  dayMonth=dayAllMonths[dayAllMonths.length-1]||'2026-02';
-  renderDayTable();
-}
-
-function setDayEntity(key){
-  dayEntity=key;
-  document.querySelectorAll('.day-entity-pill').forEach(b=>b.classList.toggle('active',b.textContent===ENTITIES.find(e=>e.key===key).label));
-  dayAllMonths=DATA[key].months;
-  dayMonth=dayAllMonths[dayAllMonths.length-1]||'2026-02';
-  renderDayTable();
-}
-
-function dayChangeMonth(delta){
-  const idx=dayAllMonths.indexOf(dayMonth);const ni=idx+delta;
-  if(ni<0||ni>=dayAllMonths.length)return;
-  dayMonth=dayAllMonths[ni];renderDayTable();
-}
-
-function renderDayTable(){
-  if(!dayMonth||!DATA[dayEntity])return;
-  const bd=DATA[dayEntity].byDate;
-  const [y,m]=dayMonth.split('-').map(Number);
-  const daysInMonth=new Date(y,m,0).getDate();
-  const monthName=MONTH_NAMES[m-1]+' '+y;
-  document.getElementById('dayMonthTitle').textContent=monthName;
-  const idx=dayAllMonths.indexOf(dayMonth);
-  document.getElementById('dayPrev').disabled=(idx<=0);
-  document.getElementById('dayNext').disabled=(idx>=dayAllMonths.length-1);
-  const hasLeads=dayEntity==='national';
-  const cols=['Impressions','Clics','Depenses','Reactions'];
-  if(hasLeads)cols.push('Leads');
-  document.querySelector('#dayTable thead').innerHTML='<tr><th>Jour</th>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
-  const tbody=document.querySelector('#dayTable tbody');tbody.innerHTML='';
-  const totals={imp:0,clk:0,cost:0,react:0,leads:0};
-  for(let day=1;day<=daysInMonth;day++){
-    const ds=y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-    const dd=bd[ds];
-    const has=dd&&(dd.impressions>0||dd.clicks>0||dd.cost>0);
-    if(has){totals.imp+=dd.impressions;totals.clk+=dd.clicks;totals.cost+=dd.cost;totals.react+=dd.reactions;totals.leads+=dd.leads}
-    const dl=String(day).padStart(2,'0')+' '+MONTH_NAMES[m-1].substring(0,3);
-    let tds='<td>'+dl+'</td><td>'+(has?fmt(dd.impressions):'-')+'</td><td>'+(has?fmt(dd.clicks):'-')+'</td><td class="val-cost">'+(has?fmtE(dd.cost):'-')+'</td><td>'+(has?fmt(dd.reactions):'-')+'</td>';
-    if(hasLeads)tds+='<td class="val-leads">'+(has&&dd.leads?fmt(dd.leads):'-')+'</td>';
-    tbody.innerHTML+='<tr class="'+(has?'':'empty')+'">'+tds+'</tr>';
-  }
-  const tfoot=document.querySelector('#dayTable tfoot');
-  let ftds='<td>Total '+monthName+'</td><td>'+fmt(totals.imp)+'</td><td>'+fmt(totals.clk)+'</td><td class="val-cost">'+fmtE(totals.cost)+'</td><td>'+fmt(totals.react)+'</td>';
-  if(hasLeads)ftds+='<td class="val-leads">'+fmt(totals.leads)+'</td>';
-  tfoot.innerHTML='<tr>'+ftds+'</tr>';
 }
 
 /* ══ CALENDAR DATE PICKER ══ */
