@@ -1,1 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Moulin d'Elise — Portail Marketing</title>
+<link rel="icon" href="https://moulindelise.com/wp-content/uploads/2024/03/cropped-logo-moulin-elise-01-1-32x32.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#BF8D50;
+  --gold-light:#d4a96a;
+  --gold-dark:#a07640;
+  --gold-glow:rgba(191,141,80,0.35);
+  --wheat:#e8d5b7;
+  --cream:#f5ead6;
+  --bg-dark:#0f0b07;
+  --bg-card:rgba(191,141,80,0.06);
+  --bg-card-hover:rgba(191,141,80,0.12);
+  --text-primary:#f5f0e8;
+  --text-secondary:rgba(245,240,232,0.6);
+  --text-tertiary:rgba(245,240,232,0.35);
+  --border:rgba(191,141,80,0.18);
+  --border-hover:rgba(191,141,80,0.45);
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --radius-xl:28px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background:var(--bg-dark);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
 
+/* ══ ANIMATED BACKGROUND ══ */
+.bg-scene{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%,rgba(191,141,80,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%,rgba(191,141,80,0.05) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(160,118,64,0.04) 0%,transparent 40%),
+    linear-gradient(180deg,#0f0b07 0%,#12100a 50%,#0f0b07 100%)}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(191,141,80,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(191,141,80,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 30%,black,transparent)}
+.wrapper{position:relative;z-index:1;min-height:100vh}
+
+/* ══ HEADER ══ */
+.header{padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,11,7,0.7);position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:16px}
+.header-logo{height:44px;width:auto;filter:brightness(1.1)}
+.header-brand{display:flex;flex-direction:column}
+.header-title{font-size:18px;font-weight:800;letter-spacing:-.3px;background:linear-gradient(135deg,var(--cream) 0%,var(--gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-sub{font-size:11px;color:var(--text-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:1.5px}
+.header-right{display:flex;align-items:center;gap:20px}
+.header-badge{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;background:rgba(191,141,80,0.12);border:1px solid var(--border);color:var(--gold-light);text-transform:uppercase;letter-spacing:.8px}
+
+/* ══ HERO ══ */
+.hero{padding:70px 40px 50px;text-align:center;position:relative}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(191,141,80,0.12) 0%,transparent 70%);top:-150px;left:50%;transform:translateX(-50%);pointer-events:none;animation:pulse-glow 6s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+.hero-logo{height:90px;width:auto;margin-bottom:24px;filter:drop-shadow(0 0 40px rgba(191,141,80,0.3));animation:float-logo 4s ease-in-out infinite}
+@keyframes float-logo{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero h1{font-size:46px;font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px;position:relative}
+.hero h1 span{background:linear-gradient(135deg,var(--cream) 0%,#ffffff 40%,var(--gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:16px;color:var(--text-secondary);max-width:520px;margin:0 auto 48px;line-height:1.6}
+
+/* ══ STATS BAR ══ */
+.stats-bar{display:flex;justify-content:center;gap:48px;margin-bottom:20px}
+.stat-item{text-align:center}
+.stat-value{font-size:32px;font-weight:900;color:var(--gold-light);letter-spacing:-1px}
+.stat-label{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:4px}
+
+/* ══ SECTION ══ */
+.section{padding:40px 40px 80px;max-width:1200px;margin:0 auto}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-tertiary);white-space:nowrap}
+
+/* ══ CAMPAIGN CARDS ══ */
+.campaigns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.camp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;cursor:pointer;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block}
+.camp-card::before{content:'';position:absolute;inset:0;border-radius:var(--radius-lg);background:linear-gradient(135deg,rgba(191,141,80,0.08) 0%,transparent 60%);opacity:0;transition:opacity .4s}
+.camp-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));opacity:0;transition:opacity .3s}
+.camp-card:hover{border-color:var(--border-hover);transform:translateY(-6px);box-shadow:0 20px 60px rgba(191,141,80,0.12),0 8px 24px rgba(0,0,0,0.3)}
+.camp-card:hover::before{opacity:1}
+.camp-card:hover::after{opacity:1}
+.camp-card:hover .camp-arrow{transform:translateX(4px);opacity:1}
+.camp-card:hover .camp-icon{transform:scale(1.05);box-shadow:0 0 20px var(--gold-glow)}
+
+.camp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;z-index:1}
+.camp-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(191,141,80,0.2),rgba(191,141,80,0.08));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .4s}
+.camp-icon svg{width:24px;height:24px;color:var(--gold-light)}
+.camp-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--gold-light);text-transform:uppercase;letter-spacing:.5px}
+.camp-status .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold-light);animation:status-pulse 2s ease-in-out infinite}
+@keyframes status-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 var(--gold-glow)}50%{opacity:.7;box-shadow:0 0 0 6px transparent}}
+
+.camp-name{font-size:22px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;position:relative;z-index:1}
+.camp-location{font-size:12px;color:var(--text-tertiary);font-weight:500;margin-bottom:20px;position:relative;z-index:1}
+
+.camp-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;position:relative;z-index:1}
+.camp-tag{font-size:10px;font-weight:600;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.camp-tag.trafic{background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.18);color:#5dade2}
+.camp-tag.engagement{background:rgba(230,126,34,0.12);border:1px solid rgba(230,126,34,0.18);color:#e67e22}
+.camp-tag.notoriete{background:rgba(155,89,182,0.12);border:1px solid rgba(155,89,182,0.18);color:#bb8fce}
+.camp-tag.recrutement{background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.18);color:#58d68d}
+.camp-tag.leadgen{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.18);color:#ec7063}
+
+/* ══ KPI ROW IN CARD ══ */
+.camp-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;position:relative;z-index:1}
+.camp-kpi{padding:10px 12px;background:rgba(191,141,80,0.04);border:1px solid rgba(191,141,80,0.08);border-radius:var(--radius-sm)}
+.camp-kpi-val{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--text-primary)}
+.camp-kpi-label{font-size:10px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.camp-kpi.highlight{background:rgba(191,141,80,0.1);border-color:rgba(191,141,80,0.2)}
+.camp-kpi.highlight .camp-kpi-val{color:var(--gold-light)}
+
+.camp-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);position:relative;z-index:1}
+.camp-link{font-size:12px;font-weight:600;color:var(--text-secondary)}
+.camp-arrow{color:var(--gold-light);opacity:.4;transition:all .3s}
+.camp-arrow svg{width:18px;height:18px}
+
+/* ══ LOADING ══ */
+.loading{text-align:center;padding:60px 20px}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--text-tertiary)}
+
+/* ══ FOOTER ══ */
+.footer{text-align:center;padding:40px;border-top:1px solid var(--border);color:var(--text-tertiary);font-size:11px;font-weight:500;letter-spacing:.5px}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1024px){.campaigns-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}.hero h1{font-size:40px}.section{padding:30px 24px 60px}}
+@media(max-width:768px){
+  .header{padding:16px 20px}.header-right{display:none}
+  .hero{padding:50px 20px 40px}.hero h1{font-size:32px}.hero-desc{font-size:14px}.hero-logo{height:70px}
+  .stats-bar{gap:24px}.stat-value{font-size:24px}
+  .section{padding:20px 20px 60px}.campaigns-grid{grid-template-columns:1fr}
+  .camp-card{padding:22px}.camp-card:hover{transform:translateY(-3px)}
+}
+@media(max-width:480px){
+  .header{padding:12px 16px}.header-logo{height:32px}.header-title{font-size:15px}.header-sub{font-size:9px}
+  .hero{padding:36px 16px 28px}.hero h1{font-size:26px;letter-spacing:-1px}.hero-desc{font-size:13px;margin-bottom:28px}.hero-logo{height:56px}
+  .stats-bar{flex-direction:column;gap:12px}.stat-value{font-size:22px}.stat-label{font-size:10px}
+  .section{padding:16px 16px 40px}.section-header{margin-bottom:20px}.section-title{font-size:11px;letter-spacing:1.5px}
+  .camp-card{padding:18px}.camp-name{font-size:18px}.camp-location{font-size:11px;margin-bottom:14px}
+  .camp-icon{width:42px;height:42px;border-radius:10px}.camp-icon svg{width:20px;height:20px}
+  .camp-tag{font-size:9px;padding:3px 8px}.camp-tags{gap:6px;margin-bottom:14px}
+  .camp-kpis{grid-template-columns:1fr 1fr 1fr;gap:8px}.camp-kpi-val{font-size:15px}
+  .camp-bottom{padding-top:12px}.camp-link{font-size:11px}
+  .footer{padding:24px 16px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="bg-scene"></div>
+<div class="bg-grid"></div>
+
+<div class="wrapper">
+
+<!-- ══ HEADER ══ -->
+<header class="header">
+  <div class="header-left">
+    <img class="header-logo" src="https://moulindelise.com/wp-content/uploads/logo-moulin-elise-01.svg" alt="Le Moulin d'Elise">
+    <div class="header-brand">
+      <div class="header-title">Le Moulin d'Elise</div>
+      <div class="header-sub">Portail Marketing</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="header-badge" id="headerDate"></span>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <img class="hero-logo" src="https://moulindelise.com/wp-content/uploads/logo-moulin-elise-01.svg" alt="Le Moulin d'Elise">
+  <h1><span>La boulangerie au naturel</span></h1>
+  <p class="hero-desc">Suivi en temps reel de vos campagnes marketing Meta Ads — performances, leads et investissements par boutique.</p>
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item"><div class="stat-value" id="statImp">--</div><div class="stat-label">Impressions</div></div>
+    <div class="stat-item"><div class="stat-value" id="statClk">--</div><div class="stat-label">Clics</div></div>
+    <div class="stat-item"><div class="stat-value" id="statDep">--</div><div class="stat-label">Depenses</div></div>
+    <div class="stat-item"><div class="stat-value" id="statLeads">--</div><div class="stat-label">Leads</div></div>
+  </div>
+</section>
+
+<!-- ══ CAMPAIGNS ══ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">Vos campagnes</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="loading" id="loadingState">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Chargement des donnees...</div>
+  </div>
+
+  <div class="campaigns-grid" id="campaignsGrid" style="display:none"></div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  Le Moulin d'Elise — Portail Marketing · Donnees <a href="#">Supermetrics</a> · Concu par HZ Dev
+</footer>
+
+</div>
+
+<script>
+const BASE_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=';
+const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692'};
+const ENTITIES=[
+  {key:'national',label:'National',location:'France entiere · Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
+  {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) · 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
+  {key:'saintbrieuc',label:'Saint-Brieuc',location:'Cotes-d\'Armor (22) · 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'}
+];
+const CAMPAIGN_DETECT=[
+  {type:'LeadGen',cls:'leadgen',match:['leadgen','lead_gen','lead gen']},
+  {type:'Trafic',cls:'trafic',match:['trafic']},
+  {type:'Engagement',cls:'engagement',match:['engagement']},
+  {type:'Notoriete',cls:'notoriete',match:['notori']},
+  {type:'Recrutement',cls:'recrutement',match:['recrutement']}
+];
+
+const DATA={};
+
+/* ── CSV PARSER ── */
+function parseCSV(text){
+  const lines=text.trim().split('\n');if(lines.length<2)return[];
+  const headers=parseLine(lines[0]);const rows=[];
+  for(let i=1;i<lines.length;i++){const vals=parseLine(lines[i]);if(vals.length<headers.length)continue;const row={};headers.forEach((h,j)=>row[h.trim()]=vals[j]);rows.push(row)}
+  return rows;
+}
+function parseLine(line){const r=[];let c='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
+function parseFR(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
+
+function detectTypes(rows){
+  const found=new Set();
+  rows.forEach(r=>{const n=(r['Campaign name']||'').toLowerCase();CAMPAIGN_DETECT.forEach(d=>{if(d.match.some(m=>n.includes(m)))found.add(d.type)})});
+  return [...found];
+}
+
+function computeTotals(rows){
+  let imp=0,clk=0,cost=0,leads=0,react=0;
+  rows.forEach(r=>{imp+=parseFR(r['Impressions']);clk+=parseFR(r['Clicks (all)']);cost+=parseFR(r['Cost (EUR)']);leads+=parseFR(r['On-Facebook leads']);react+=parseFR(r['Post reactions'])});
+  return{impressions:imp,clicks:clk,cost,leads,reactions:react};
+}
+
+function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
+function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0})+' \u20ac'}
+
+const ICONS={
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
+};
+
+/* ── LOAD ── */
+async function loadData(){
+  try{
+    const t=Date.now();
+    const fetches=Object.entries(GIDS).map(async([key,gid])=>{
+      const url=BASE_URL+gid+'&_t='+t;
+      const resp=await fetch(url,{redirect:'follow',credentials:'omit'});
+      if(!resp.ok)throw new Error(key+': HTTP '+resp.status);
+      const text=await resp.text();
+      if(!text||text.length<20)throw new Error(key+': reponse vide');
+      const rows=parseCSV(text);
+      if(rows.length===0)throw new Error(key+': aucune donnee');
+      DATA[key]={rows,types:detectTypes(rows),totals:computeTotals(rows)};
+    });
+    await Promise.all(fetches);
+    document.getElementById('loadingState').style.display='none';
+    render();
+  }catch(e){
+    console.error('Erreur:',e);
+    document.querySelector('.loading-text').innerHTML='Erreur de chargement: '+e.message+'<br><small style="color:var(--text-tertiary)">Actualisez la page (Ctrl+Maj+R)</small>';
+  }
+}
+
+function render(){
+  let totImp=0,totClk=0,totDep=0,totLeads=0;
+  Object.values(DATA).forEach(d=>{totImp+=d.totals.impressions;totClk+=d.totals.clicks;totDep+=d.totals.cost;totLeads+=d.totals.leads});
+  document.getElementById('statImp').textContent=fmt(totImp);
+  document.getElementById('statClk').textContent=fmt(totClk);
+  document.getElementById('statDep').textContent=fmtE(totDep);
+  document.getElementById('statLeads').textContent=fmt(totLeads);
+
+  const grid=document.getElementById('campaignsGrid');
+  grid.style.display='';
+  grid.innerHTML='';
+
+  ENTITIES.forEach(ent=>{
+    const d=DATA[ent.key];
+    const t=d.totals;
+    const types=d.types;
+
+    let hlVal,hlLabel;
+    if(ent.highlight==='leads'){hlVal=fmt(t.leads);hlLabel='Leads'}
+    else{hlVal=fmt(t.clicks);hlLabel='Clics'}
+
+    const tags=types.map(type=>{
+      const det=CAMPAIGN_DETECT.find(c=>c.type===type);
+      return det?`<span class="camp-tag ${det.cls}">${det.type}</span>`:'';
+    }).join('');
+
+    grid.innerHTML+=`
+      <a class="camp-card" href="${ent.dashboard}">
+        <div class="camp-top">
+          <div class="camp-icon">${ICONS[ent.icon]}</div>
+          <div class="camp-status"><div class="pulse"></div>Actif</div>
+        </div>
+        <div class="camp-name">${ent.label}</div>
+        <div class="camp-location">${ent.location}</div>
+        <div class="camp-tags">${tags}</div>
+        <div class="camp-kpis">
+          <div class="camp-kpi highlight"><div class="camp-kpi-val">${hlVal}</div><div class="camp-kpi-label">${hlLabel}</div></div>
+          <div class="camp-kpi"><div class="camp-kpi-val">${fmt(t.impressions)}</div><div class="camp-kpi-label">Impressions</div></div>
+          <div class="camp-kpi"><div class="camp-kpi-val">${fmtE(t.cost)}</div><div class="camp-kpi-label">Depenses</div></div>
+        </div>
+        <div class="camp-bottom">
+          <span class="camp-link">Voir le dashboard complet</span>
+          <div class="camp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </a>
+    `;
+  });
+}
+
+/* ── HEADER DATE ── */
+const now=new Date();
+const MONTHS=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+document.getElementById('headerDate').textContent=now.getDate()+' '+MONTHS[now.getMonth()]+' '+now.getFullYear();
+
+loadData();
+</script>
+</body>
+</html>
