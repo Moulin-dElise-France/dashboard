@@ -12,9 +12,12 @@
   --gold-light:#d4a96a;
   --gold-dark:#a07640;
   --gold-glow:rgba(191,141,80,0.35);
+  --gold-soft:rgba(191,141,80,0.15);
+  --gradient-gold:linear-gradient(135deg,#BF8D50 0%,#d4a96a 100%);
   --wheat:#e8d5b7;
   --cream:#f5ead6;
   --bg-dark:#0f0b07;
+  --bg-secondary:#181310;
   --bg-card:rgba(191,141,80,0.06);
   --bg-card-hover:rgba(191,141,80,0.12);
   --text-primary:#f5f0e8;
@@ -26,6 +29,7 @@
   --radius-md:14px;
   --radius-lg:20px;
   --radius-xl:28px;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -52,7 +56,62 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 .header-title{font-size:18px;font-weight:800;letter-spacing:-.3px;background:linear-gradient(135deg,var(--cream) 0%,var(--gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .header-sub{font-size:11px;color:var(--text-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:1.5px}
 .header-right{display:flex;align-items:center;gap:20px}
-.header-badge{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;background:rgba(191,141,80,0.12);border:1px solid var(--border);color:var(--gold-light);text-transform:uppercase;letter-spacing:.8px}
+
+/* ══ DATE PICKER TRIGGER ══ */
+.dp-trigger{display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:600;color:var(--text-primary);cursor:pointer;transition:all .25s;font-family:inherit}
+.dp-trigger:hover{background:rgba(255,255,255,0.08);border-color:var(--gold-soft)}
+.dp-trigger.open{background:rgba(191,141,80,0.1);border-color:var(--gold)}
+.dp-icon{width:16px;height:16px;color:var(--gold)}
+.dp-label{white-space:nowrap}
+.dp-chevron{width:14px;height:14px;color:var(--text-tertiary);transition:transform .3s var(--ease)}
+.dp-trigger.open .dp-chevron{transform:rotate(180deg)}
+
+/* ══ CALENDAR OVERLAY ══ */
+.cal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,8,8,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.cal-overlay.show{display:block}
+
+/* ══ CALENDAR DROPDOWN ══ */
+.cal-dropdown{display:none;position:fixed;top:80px;right:32px;z-index:1001;background:var(--bg-secondary);border:1px solid var(--border);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;flex-direction:row}
+.cal-dropdown.show{display:flex;animation:calSlide .35s var(--ease)}
+@keyframes calSlide{from{opacity:0;transform:translateY(-12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ══ CALENDAR SIDEBAR ══ */
+.cal-sidebar{width:180px;padding:20px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+.cal-year-tabs{display:flex;gap:4px;margin-bottom:16px;border-radius:10px;padding:3px}
+.cal-year-tab{flex:1;padding:7px 8px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--text-secondary);transition:all .25s;font-family:inherit}
+.cal-year-tab.active{background:var(--gradient-gold);color:#fff}
+.cal-year-tab:hover:not(.active){color:var(--gold)}
+.cal-preset-label{font-size:9px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;padding:8px 10px 4px}
+.cal-preset{padding:9px 12px;border-radius:10px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all .2s}
+.cal-preset:hover{background:rgba(255,255,255,0.05);color:var(--text-primary)}
+.cal-preset.active{background:var(--gold-soft);color:var(--gold)}
+
+/* ══ CALENDAR MAIN ══ */
+.cal-main{padding:20px 24px 24px;min-width:520px}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cal-nav-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;transition:all .2s;cursor:pointer;font-family:inherit}
+.cal-nav-btn:hover{background:rgba(255,255,255,0.06);color:var(--gold);border-color:var(--border-hover)}
+.cal-nav-btn svg{width:16px;height:16px}
+.cal-nav-title{font-size:15px;font-weight:800;letter-spacing:-.2px}
+.cal-months{display:flex;gap:28px}
+.cal-month{flex:1}
+.cal-month-label{font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px}
+.cal-wd{text-align:center;font-size:10px;font-weight:600;color:var(--text-tertiary);padding:4px 0}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-day{text-align:center;padding:7px 2px;border-radius:8px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all .12s;min-width:32px}
+.cal-day:hover{background:rgba(255,255,255,0.07);color:var(--text-primary)}
+.cal-day.empty{visibility:hidden;pointer-events:none}
+.cal-day.today{color:var(--gold);font-weight:700;box-shadow:inset 0 -2px 0 var(--gold)}
+.cal-day.selected,.cal-day.range-start,.cal-day.range-end{background:var(--gradient-gold);color:#fff;font-weight:700}
+.cal-day.in-range{background:rgba(191,141,80,0.12);color:var(--gold-light);border-radius:4px}
+.cal-day.range-start{border-radius:8px 4px 4px 8px}
+.cal-day.range-end{border-radius:4px 8px 8px 4px}
+.cal-day.range-start.range-end{border-radius:8px}
+.cal-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);margin-top:16px}
+.cal-selection-text{font-size:13px;font-weight:600;color:var(--gold)}
+.cal-apply-btn{padding:8px 20px;border:none;border-radius:10px;background:var(--gradient-gold);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit}
+.cal-apply-btn:hover{box-shadow:0 4px 20px rgba(191,141,80,0.4);transform:translateY(-1px)}
 
 /* ══ HERO ══ */
 .hero{padding:70px 40px 50px;text-align:center;position:relative}
@@ -118,30 +177,30 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 .camp-arrow{color:var(--gold-light);opacity:.4;transition:all .3s}
 .camp-arrow svg{width:18px;height:18px}
 
-/* ══ CALENDAR SECTION ══ */
-.cal-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
-.cal-entity-pills{display:flex;gap:6px;flex-wrap:wrap}
-.cal-entity-pill{font-family:inherit;font-size:12px;font-weight:600;padding:7px 16px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;border-radius:20px;transition:all .2s}
-.cal-entity-pill:hover{border-color:var(--gold);color:var(--gold-light)}
-.cal-entity-pill.active{background:var(--gold);color:#fff;border-color:var(--gold)}
-.cal-month-nav{display:flex;align-items:center;gap:12px}
-.cal-month-title{font-size:15px;font-weight:700;color:var(--text-primary);min-width:160px;text-align:center}
-.cal-btn{width:34px;height:34px;border:1px solid var(--border);background:rgba(191,141,80,0.06);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text-secondary)}
-.cal-btn:hover{border-color:var(--gold);color:var(--gold-light)}
-.cal-btn:disabled{opacity:.3;cursor:default}
-.cal-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.cal-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(191,141,80,0.03);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.cal-table thead th{font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.6px;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.06);border-bottom:1px solid var(--border)}
-.cal-table thead th:first-child{text-align:left;padding-left:16px}
-.cal-table tbody td{font-size:13px;font-weight:500;padding:9px 10px;text-align:right;border-bottom:1px solid rgba(191,141,80,0.06);color:var(--text-primary);font-variant-numeric:tabular-nums}
-.cal-table tbody td:first-child{text-align:left;font-weight:600;color:var(--text-secondary);padding-left:16px;font-size:12px}
-.cal-table tbody tr:last-child td{border-bottom:none}
-.cal-table tbody tr:hover td{background:rgba(191,141,80,0.08)}
-.cal-table tbody tr.empty td{opacity:.3}
-.cal-table tfoot td{font-size:13px;font-weight:800;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.1);border-top:2px solid var(--gold);color:var(--text-primary)}
-.cal-table tfoot td:first-child{text-align:left;padding-left:16px;color:var(--gold)}
-.cal-table td.val-cost{color:#e74c3c}
-.cal-table td.val-leads{color:var(--gold-light);font-weight:700}
+/* ══ DAY TABLE ══ */
+.day-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.day-entity-pills{display:flex;gap:6px;flex-wrap:wrap}
+.day-entity-pill{font-family:inherit;font-size:12px;font-weight:600;padding:7px 16px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;border-radius:20px;transition:all .2s}
+.day-entity-pill:hover{border-color:var(--gold);color:var(--gold-light)}
+.day-entity-pill.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+.day-month-nav{display:flex;align-items:center;gap:12px}
+.day-month-title{font-size:15px;font-weight:700;color:var(--text-primary);min-width:160px;text-align:center}
+.day-btn{width:34px;height:34px;border:1px solid var(--border);background:rgba(191,141,80,0.06);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text-secondary);font-family:inherit}
+.day-btn:hover{border-color:var(--gold);color:var(--gold-light)}
+.day-btn:disabled{opacity:.3;cursor:default}
+.day-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.day-table{width:100%;border-collapse:separate;border-spacing:0;background:rgba(191,141,80,0.03);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.day-table thead th{font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.6px;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.06);border-bottom:1px solid var(--border)}
+.day-table thead th:first-child{text-align:left;padding-left:16px}
+.day-table tbody td{font-size:13px;font-weight:500;padding:9px 10px;text-align:right;border-bottom:1px solid rgba(191,141,80,0.06);color:var(--text-primary);font-variant-numeric:tabular-nums}
+.day-table tbody td:first-child{text-align:left;font-weight:600;color:var(--text-secondary);padding-left:16px;font-size:12px}
+.day-table tbody tr:last-child td{border-bottom:none}
+.day-table tbody tr:hover td{background:rgba(191,141,80,0.08)}
+.day-table tbody tr.empty td{opacity:.3}
+.day-table tfoot td{font-size:13px;font-weight:800;padding:12px 10px;text-align:right;background:rgba(191,141,80,0.1);border-top:2px solid var(--gold);color:var(--text-primary)}
+.day-table tfoot td:first-child{text-align:left;padding-left:16px;color:var(--gold)}
+.day-table td.val-cost{color:#e74c3c}
+.day-table td.val-leads{color:var(--gold-light);font-weight:700}
 
 /* ══ LOADING ══ */
 .loading{text-align:center;padding:60px 20px}
@@ -157,14 +216,21 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 /* ══ RESPONSIVE ══ */
 @media(max-width:1024px){.campaigns-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}.hero h1{font-size:40px}.section{padding:30px 24px 60px}}
 @media(max-width:768px){
-  .header{padding:16px 20px}.header-right{display:none}
+  .header{padding:16px 20px;flex-wrap:wrap;gap:12px}.header-right{width:100%;justify-content:flex-end}
   .hero{padding:50px 20px 40px}.hero h1{font-size:32px}.hero-desc{font-size:14px}.hero-logo{height:70px}
   .stats-bar{gap:24px}.stat-value{font-size:24px}
   .section{padding:20px 20px 60px}.campaigns-grid{grid-template-columns:1fr}
   .camp-card{padding:22px}.camp-card:hover{transform:translateY(-3px)}
+  .cal-dropdown{top:auto;right:8px;left:8px;flex-direction:column;max-height:90vh;overflow-y:auto}
+  .cal-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);flex-direction:row;flex-wrap:wrap;padding:14px}
+  .cal-year-tabs{margin-bottom:0;width:auto}
+  .cal-preset-label{padding:4px 10px}
+  .cal-main{min-width:auto;padding:16px}
+  .cal-months{flex-direction:column;gap:20px}
 }
 @media(max-width:480px){
   .header{padding:12px 16px}.header-logo{height:32px}.header-title{font-size:15px}.header-sub{font-size:9px}
+  .dp-trigger{padding:6px 10px;font-size:11px;gap:6px}
   .hero{padding:36px 16px 28px}.hero h1{font-size:26px;letter-spacing:-1px}.hero-desc{font-size:13px;margin-bottom:28px}.hero-logo{height:56px}
   .stats-bar{flex-direction:column;gap:12px}.stat-value{font-size:22px}.stat-label{font-size:10px}
   .section{padding:16px 16px 40px}.section-header{margin-bottom:20px}.section-title{font-size:11px;letter-spacing:1.5px}
@@ -193,9 +259,45 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
     </div>
   </div>
   <div class="header-right">
-    <span class="header-badge" id="headerDate"></span>
+    <div class="dp-trigger" id="dpTrigger" onclick="toggleCalendar()">
+      <svg class="dp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="dp-label" id="dpLabel">Cumul annuel — 2026</span>
+      <svg class="dp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
   </div>
 </header>
+
+<!-- ══ CALENDAR OVERLAY + DROPDOWN ══ -->
+<div class="cal-overlay" id="calOverlay" onclick="closeCalendar()"></div>
+<div class="cal-dropdown" id="calDropdown">
+  <div class="cal-sidebar">
+    <div class="cal-year-tabs">
+      <button class="cal-year-tab" onclick="calSwitchYear('2025')">2025</button>
+      <button class="cal-year-tab active" onclick="calSwitchYear('2026')">2026</button>
+    </div>
+    <div class="cal-preset-label">Periodes</div>
+    <div class="cal-preset active" onclick="calPreset('annual')">Cumul annuel</div>
+    <div class="cal-preset" onclick="calPreset('t1')">Trimestre 1</div>
+    <div class="cal-preset" onclick="calPreset('t2')">Trimestre 2</div>
+    <div class="cal-preset" onclick="calPreset('t3')">Trimestre 3</div>
+    <div class="cal-preset" onclick="calPreset('t4')">Trimestre 4</div>
+    <div class="cal-preset-label">Semestres</div>
+    <div class="cal-preset" onclick="calPreset('s1')">Semestre 1</div>
+    <div class="cal-preset" onclick="calPreset('s2')">Semestre 2</div>
+  </div>
+  <div class="cal-main">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="calNav(-2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="cal-nav-title" id="calNavTitle"></div>
+      <button class="cal-nav-btn" onclick="calNav(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="cal-months" id="calMonths"></div>
+    <div class="cal-footer">
+      <div class="cal-selection-text" id="calSelText">Cumul annuel — 2026</div>
+      <button class="cal-apply-btn" onclick="calApply()">Appliquer</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ HERO ══ -->
 <section class="hero">
@@ -226,41 +328,45 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
   <div class="campaigns-grid" id="campaignsGrid" style="display:none"></div>
 </section>
 
-<!-- ══ CALENDRIER DYNAMIQUE ══ -->
-<section class="section" id="calSection" style="display:none">
+<!-- ══ CALENDRIER JOUR PAR JOUR ══ -->
+<section class="section" id="daySection" style="display:none">
   <div class="section-header">
-    <span class="section-title">Calendrier dynamique</span>
+    <span class="section-title">Detail jour par jour</span>
     <div class="section-line"></div>
   </div>
 
-  <div class="cal-controls">
-    <div class="cal-entity-pills" id="calEntityPills"></div>
-    <div class="cal-month-nav">
-      <button class="cal-btn" id="calPrev" onclick="calChangeMonth(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <span class="cal-month-title" id="calMonthTitle"></span>
-      <button class="cal-btn" id="calNext" onclick="calChangeMonth(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+  <div class="day-controls">
+    <div class="day-entity-pills" id="dayEntityPills"></div>
+    <div class="day-month-nav">
+      <button class="day-btn" id="dayPrev" onclick="dayChangeMonth(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <span class="day-month-title" id="dayMonthTitle"></span>
+      <button class="day-btn" id="dayNext" onclick="dayChangeMonth(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
   </div>
 
-  <div class="cal-table-wrap">
-    <table class="cal-table" id="calTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+  <div class="day-table-wrap">
+    <table class="day-table" id="dayTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
   </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
 <footer class="footer">
-  Le Moulin d'Elise — Portail Marketing · Donnees <a href="#">Supermetrics</a>
+  Le Moulin d'Elise — Portail Marketing &middot; Donnees <a href="#">Supermetrics</a>
 </footer>
 
 </div>
 
 <script>
+/* ══════════════════════════════════════════════
+   LE MOULIN D'ELISE — PORTAIL MARKETING
+   ══════════════════════════════════════════════ */
+
 const BASE_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=';
 const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692'};
 const ENTITIES=[
-  {key:'national',label:'National',location:'France entiere · Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
-  {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) · 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
-  {key:'saintbrieuc',label:'Saint-Brieuc',location:'Cotes-d\'Armor (22) · 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'}
+  {key:'national',label:'National',location:'France entiere \u00b7 Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
+  {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) \u00b7 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
+  {key:'saintbrieuc',label:'Saint-Brieuc',location:"Cotes-d'Armor (22) \u00b7 4 campagnes actives",icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'}
 ];
 const CAMPAIGN_DETECT=[
   {type:'LeadGen',cls:'leadgen',match:['leadgen','lead_gen','lead gen']},
@@ -270,9 +376,31 @@ const CAMPAIGN_DETECT=[
   {type:'Recrutement',cls:'recrutement',match:['recrutement']}
 ];
 
-const DATA={};
+const MONTH_NAMES=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+const MONTH_SHORT=['Jan','Fev','Mar','Avr','Mai','Jun','Jul','Aou','Sep','Oct','Nov','Dec'];
+const WEEKDAYS=['L','M','M','J','V','S','D'];
 
-/* ── CSV PARSER ── */
+const DATA={};
+const ICONS={
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
+};
+
+/* ══ CALENDAR STATE ══ */
+let currentYear='2026';
+let selMode='annual';
+let selStart={month:0,day:0};
+let selEnd={month:11,day:30};
+let calViewMonth=0;
+let calViewYear=2026;
+let calSelStartDay=null;
+let calSelEndDay=null;
+let calOpen=false;
+
+/* ══ DAY TABLE STATE ══ */
+let dayEntity='national',dayMonth='',dayAllMonths=[];
+
+/* ══ CSV PARSER ══ */
 function parseCSV(text){
   const lines=text.trim().split('\n');if(lines.length<2)return[];
   const headers=parseLine(lines[0]);const rows=[];
@@ -288,20 +416,40 @@ function detectTypes(rows){
   return [...found];
 }
 
+function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
+function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
+
+/* ══ DATE RANGE FILTER ══ */
+function getDateRange(){
+  const yr=parseInt(currentYear);
+  if(selMode==='annual') return{start:yr+'-01-01',end:yr+'-12-31'};
+  if(calSelStartDay&&calSelEndDay){
+    const s=calSelStartDay,e=calSelEndDay;
+    return{
+      start:s.year+'-'+String(s.month+1).padStart(2,'0')+'-'+String(s.day).padStart(2,'0'),
+      end:e.year+'-'+String(e.month+1).padStart(2,'0')+'-'+String(e.day).padStart(2,'0')
+    };
+  }
+  const sm=selStart.month,sd=selStart.day+1;
+  const em=selEnd.month,ed=selEnd.day+1;
+  return{
+    start:yr+'-'+String(sm+1).padStart(2,'0')+'-'+String(sd).padStart(2,'0'),
+    end:yr+'-'+String(em+1).padStart(2,'0')+'-'+String(ed).padStart(2,'0')
+  };
+}
+
+function filterRows(rows){
+  const range=getDateRange();
+  return rows.filter(r=>{const d=r['Date'];return d>=range.start&&d<=range.end});
+}
+
 function computeTotals(rows){
   let imp=0,clk=0,cost=0,leads=0,react=0;
   rows.forEach(r=>{imp+=parseFR(r['Impressions']);clk+=parseFR(r['Clicks (all)']);cost+=parseFR(r['Cost (EUR)']);leads+=parseFR(r['On-Facebook leads']);react+=parseFR(r['Post reactions'])});
   return{impressions:imp,clicks:clk,cost,leads,reactions:react};
 }
 
-function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
-
-const ICONS={
-  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
-  store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
-};
-
-/* ── LOAD ── */
+/* ══ LOAD DATA ══ */
 async function loadData(){
   try{
     const t=Date.now();
@@ -313,49 +461,47 @@ async function loadData(){
       if(!text||text.length<20)throw new Error(key+': reponse vide');
       const rows=parseCSV(text);
       if(rows.length===0)throw new Error(key+': aucune donnee');
-      DATA[key]={rows,types:detectTypes(rows),totals:computeTotals(rows)};
+      DATA[key]={rows,types:detectTypes(rows)};
     });
     await Promise.all(fetches);
     document.getElementById('loadingState').style.display='none';
-    render();
+    renderAll();
   }catch(e){
     console.error('Erreur:',e);
     document.querySelector('.loading-text').innerHTML='Erreur de chargement: '+e.message+'<br><small style="color:var(--text-tertiary)">Actualisez la page (Ctrl+Maj+R)</small>';
   }
 }
 
-const MONTHS_FR=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
-let calEntity='national',calMonth='',calAllMonths=[];
-
-function processDaily(key){
-  const rows=DATA[key].rows;
-  const byDate={};
-  rows.forEach(r=>{
-    const date=r['Date'];
-    if(!byDate[date])byDate[date]={impressions:0,clicks:0,cost:0,leads:0,reactions:0};
-    const d=byDate[date];
-    d.impressions+=parseFR(r['Impressions']);d.clicks+=parseFR(r['Clicks (all)']);d.cost+=parseFR(r['Cost (EUR)']);d.leads+=parseFR(r['On-Facebook leads']);d.reactions+=parseFR(r['Post reactions']);
-  });
-  DATA[key].byDate=byDate;
-  const dates=Object.keys(byDate).sort();
-  DATA[key].months=[...new Set(dates.map(d=>d.substring(0,7)))].sort();
+/* ══ RENDER ALL ══ */
+function renderAll(){
+  renderStats();
+  renderCards();
+  processDaily();
+  document.getElementById('daySection').style.display='';
+  initDayTable();
 }
 
-function render(){
+function renderStats(){
   let totImp=0,totClk=0,totDep=0,totLeads=0;
-  Object.values(DATA).forEach(d=>{totImp+=d.totals.impressions;totClk+=d.totals.clicks;totDep+=d.totals.cost;totLeads+=d.totals.leads});
+  Object.values(DATA).forEach(d=>{
+    const t=computeTotals(filterRows(d.rows));
+    totImp+=t.impressions;totClk+=t.clicks;totDep+=t.cost;totLeads+=t.leads;
+  });
   document.getElementById('statImp').textContent=fmt(totImp);
   document.getElementById('statClk').textContent=fmt(totClk);
   document.getElementById('statDep').textContent=fmtE(totDep);
   document.getElementById('statLeads').textContent=fmt(totLeads);
+}
 
+function renderCards(){
   const grid=document.getElementById('campaignsGrid');
   grid.style.display='';
   grid.innerHTML='';
 
   ENTITIES.forEach(ent=>{
     const d=DATA[ent.key];
-    const t=d.totals;
+    const filtered=filterRows(d.rows);
+    const t=computeTotals(filtered);
     const types=d.types;
 
     let hlVal,hlLabel;
@@ -364,95 +510,300 @@ function render(){
 
     const tags=types.map(type=>{
       const det=CAMPAIGN_DETECT.find(c=>c.type===type);
-      return det?`<span class="camp-tag ${det.cls}">${det.type}</span>`:'';
+      return det?'<span class="camp-tag '+det.cls+'">'+det.type+'</span>':'';
     }).join('');
 
-    grid.innerHTML+=`
-      <a class="camp-card" href="${ent.dashboard}">
-        <div class="camp-top">
-          <div class="camp-icon">${ICONS[ent.icon]}</div>
-          <div class="camp-status"><div class="pulse"></div>Actif</div>
-        </div>
-        <div class="camp-name">${ent.label}</div>
-        <div class="camp-location">${ent.location}</div>
-        <div class="camp-tags">${tags}</div>
-        <div class="camp-kpis">
-          <div class="camp-kpi highlight"><div class="camp-kpi-val">${hlVal}</div><div class="camp-kpi-label">${hlLabel}</div></div>
-          <div class="camp-kpi"><div class="camp-kpi-val">${fmt(t.impressions)}</div><div class="camp-kpi-label">Impressions</div></div>
-          <div class="camp-kpi"><div class="camp-kpi-val">${fmtE(t.cost)}</div><div class="camp-kpi-label">Depenses</div></div>
-        </div>
-        <div class="camp-bottom">
-          <span class="camp-link">Voir le dashboard complet</span>
-          <div class="camp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </div>
-      </a>
-    `;
+    grid.innerHTML+='<a class="camp-card" href="'+ent.dashboard+'">'
+      +'<div class="camp-top"><div class="camp-icon">'+ICONS[ent.icon]+'</div><div class="camp-status"><div class="pulse"></div>Actif</div></div>'
+      +'<div class="camp-name">'+ent.label+'</div>'
+      +'<div class="camp-location">'+ent.location+'</div>'
+      +'<div class="camp-tags">'+tags+'</div>'
+      +'<div class="camp-kpis">'
+        +'<div class="camp-kpi highlight"><div class="camp-kpi-val">'+hlVal+'</div><div class="camp-kpi-label">'+hlLabel+'</div></div>'
+        +'<div class="camp-kpi"><div class="camp-kpi-val">'+fmt(t.impressions)+'</div><div class="camp-kpi-label">Impressions</div></div>'
+        +'<div class="camp-kpi"><div class="camp-kpi-val">'+fmtE(t.cost)+'</div><div class="camp-kpi-label">Depenses</div></div>'
+      +'</div>'
+      +'<div class="camp-bottom"><span class="camp-link">Voir le dashboard complet</span><div class="camp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div></div>'
+    +'</a>';
   });
-
-  // Process daily data & init calendar
-  Object.keys(DATA).forEach(processDaily);
-  document.getElementById('calSection').style.display='';
-  initCalendar();
 }
 
-/* ── CALENDAR ── */
-function initCalendar(){
-  const pills=document.getElementById('calEntityPills');
-  pills.innerHTML=ENTITIES.map(e=>`<button class="cal-entity-pill${e.key===calEntity?' active':''}" onclick="setCalEntity('${e.key}')">${e.label}</button>`).join('');
-  const d=DATA[calEntity];
-  calAllMonths=d.months;
-  calMonth=calAllMonths[calAllMonths.length-1]||'2026-02';
-  renderCalTable();
+/* ══ DAY-BY-DAY TABLE ══ */
+function processDaily(){
+  Object.keys(DATA).forEach(key=>{
+    const rows=DATA[key].rows;
+    const byDate={};
+    rows.forEach(r=>{
+      const date=r['Date'];
+      if(!byDate[date])byDate[date]={impressions:0,clicks:0,cost:0,leads:0,reactions:0};
+      const d=byDate[date];
+      d.impressions+=parseFR(r['Impressions']);d.clicks+=parseFR(r['Clicks (all)']);d.cost+=parseFR(r['Cost (EUR)']);d.leads+=parseFR(r['On-Facebook leads']);d.reactions+=parseFR(r['Post reactions']);
+    });
+    DATA[key].byDate=byDate;
+    DATA[key].months=[...new Set(Object.keys(byDate).sort().map(d=>d.substring(0,7)))].sort();
+  });
 }
-function setCalEntity(key){
-  calEntity=key;
-  document.querySelectorAll('.cal-entity-pill').forEach(b=>b.classList.toggle('active',b.textContent===ENTITIES.find(e=>e.key===key).label));
-  calAllMonths=DATA[key].months;
-  calMonth=calAllMonths[calAllMonths.length-1]||'2026-02';
-  renderCalTable();
+
+function initDayTable(){
+  const pills=document.getElementById('dayEntityPills');
+  pills.innerHTML=ENTITIES.map(e=>'<button class="day-entity-pill'+(e.key===dayEntity?' active':'')+'" onclick="setDayEntity(\''+e.key+'\')">'+e.label+'</button>').join('');
+  dayAllMonths=DATA[dayEntity].months;
+  dayMonth=dayAllMonths[dayAllMonths.length-1]||'2026-02';
+  renderDayTable();
 }
-function calChangeMonth(delta){
-  const idx=calAllMonths.indexOf(calMonth);const ni=idx+delta;
-  if(ni<0||ni>=calAllMonths.length)return;
-  calMonth=calAllMonths[ni];renderCalTable();
+
+function setDayEntity(key){
+  dayEntity=key;
+  document.querySelectorAll('.day-entity-pill').forEach(b=>b.classList.toggle('active',b.textContent===ENTITIES.find(e=>e.key===key).label));
+  dayAllMonths=DATA[key].months;
+  dayMonth=dayAllMonths[dayAllMonths.length-1]||'2026-02';
+  renderDayTable();
 }
-function renderCalTable(){
-  if(!calMonth||!DATA[calEntity])return;
-  const bd=DATA[calEntity].byDate;
-  const [y,m]=calMonth.split('-').map(Number);
+
+function dayChangeMonth(delta){
+  const idx=dayAllMonths.indexOf(dayMonth);const ni=idx+delta;
+  if(ni<0||ni>=dayAllMonths.length)return;
+  dayMonth=dayAllMonths[ni];renderDayTable();
+}
+
+function renderDayTable(){
+  if(!dayMonth||!DATA[dayEntity])return;
+  const bd=DATA[dayEntity].byDate;
+  const [y,m]=dayMonth.split('-').map(Number);
   const daysInMonth=new Date(y,m,0).getDate();
-  const monthName=MONTHS_FR[m-1]+' '+y;
-  document.getElementById('calMonthTitle').textContent=monthName;
-  const idx=calAllMonths.indexOf(calMonth);
-  document.getElementById('calPrev').disabled=(idx<=0);
-  document.getElementById('calNext').disabled=(idx>=calAllMonths.length-1);
-  const hasLeads=calEntity==='national';
+  const monthName=MONTH_NAMES[m-1]+' '+y;
+  document.getElementById('dayMonthTitle').textContent=monthName;
+  const idx=dayAllMonths.indexOf(dayMonth);
+  document.getElementById('dayPrev').disabled=(idx<=0);
+  document.getElementById('dayNext').disabled=(idx>=dayAllMonths.length-1);
+  const hasLeads=dayEntity==='national';
   const cols=['Impressions','Clics','Depenses','Reactions'];
   if(hasLeads)cols.push('Leads');
-  document.querySelector('#calTable thead').innerHTML='<tr><th>Jour</th>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
-  const tbody=document.querySelector('#calTable tbody');tbody.innerHTML='';
+  document.querySelector('#dayTable thead').innerHTML='<tr><th>Jour</th>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
+  const tbody=document.querySelector('#dayTable tbody');tbody.innerHTML='';
   const totals={imp:0,clk:0,cost:0,react:0,leads:0};
   for(let day=1;day<=daysInMonth;day++){
     const ds=y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
     const dd=bd[ds];
     const has=dd&&(dd.impressions>0||dd.clicks>0||dd.cost>0);
     if(has){totals.imp+=dd.impressions;totals.clk+=dd.clicks;totals.cost+=dd.cost;totals.react+=dd.reactions;totals.leads+=dd.leads}
-    const dl=String(day).padStart(2,'0')+' '+MONTHS_FR[m-1].substring(0,3);
-    let tds=`<td>${dl}</td><td>${has?fmt(dd.impressions):'-'}</td><td>${has?fmt(dd.clicks):'-'}</td><td class="val-cost">${has?fmtE(dd.cost):'-'}</td><td>${has?fmt(dd.reactions):'-'}</td>`;
-    if(hasLeads)tds+=`<td class="val-leads">${has&&dd.leads?fmt(dd.leads):'-'}</td>`;
-    tbody.innerHTML+=`<tr class="${has?'':'empty'}">${tds}</tr>`;
+    const dl=String(day).padStart(2,'0')+' '+MONTH_NAMES[m-1].substring(0,3);
+    let tds='<td>'+dl+'</td><td>'+(has?fmt(dd.impressions):'-')+'</td><td>'+(has?fmt(dd.clicks):'-')+'</td><td class="val-cost">'+(has?fmtE(dd.cost):'-')+'</td><td>'+(has?fmt(dd.reactions):'-')+'</td>';
+    if(hasLeads)tds+='<td class="val-leads">'+(has&&dd.leads?fmt(dd.leads):'-')+'</td>';
+    tbody.innerHTML+='<tr class="'+(has?'':'empty')+'">'+tds+'</tr>';
   }
-  const tfoot=document.querySelector('#calTable tfoot');
-  let ftds=`<td>Total ${monthName}</td><td>${fmt(totals.imp)}</td><td>${fmt(totals.clk)}</td><td class="val-cost">${fmtE(totals.cost)}</td><td>${fmt(totals.react)}</td>`;
-  if(hasLeads)ftds+=`<td class="val-leads">${fmt(totals.leads)}</td>`;
-  tfoot.innerHTML=`<tr>${ftds}</tr>`;
+  const tfoot=document.querySelector('#dayTable tfoot');
+  let ftds='<td>Total '+monthName+'</td><td>'+fmt(totals.imp)+'</td><td>'+fmt(totals.clk)+'</td><td class="val-cost">'+fmtE(totals.cost)+'</td><td>'+fmt(totals.react)+'</td>';
+  if(hasLeads)ftds+='<td class="val-leads">'+fmt(totals.leads)+'</td>';
+  tfoot.innerHTML='<tr>'+ftds+'</tr>';
 }
-function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
 
-/* ── HEADER DATE ── */
-const now=new Date();
-document.getElementById('headerDate').textContent=now.getDate()+' '+MONTHS_FR[now.getMonth()]+' '+now.getFullYear();
+/* ══ CALENDAR DATE PICKER ══ */
+function daysInMonthCal(year,month){return new Date(year,month+1,0).getDate()}
+function firstDayOfMonth(year,month){const d=new Date(year,month,1).getDay();return d===0?6:d-1}
 
+function getPeriodLabel(){
+  if(selMode==='annual')return'Cumul annuel \u2014 '+currentYear;
+  const yr=parseInt(currentYear);
+  if(calSelStartDay&&calSelEndDay){
+    const s=calSelStartDay,e=calSelEndDay;
+    const sLabel=s.day+' '+MONTH_SHORT[s.month];
+    const eLabel=e.day+' '+MONTH_SHORT[e.month];
+    if(s.year===e.year&&s.month===e.month&&s.day===e.day)return sLabel+' '+s.year;
+    return sLabel+' \u2014 '+eLabel+' '+e.year;
+  }
+  const sDay=selStart.day+1;const eDay=selEnd.day+1;
+  if(selStart.day===0&&selEnd.day>=daysInMonthCal(yr,selEnd.month)-1){
+    if(selStart.month===selEnd.month)return MONTH_NAMES[selStart.month]+' '+currentYear;
+    return MONTH_NAMES[selStart.month]+' \u2014 '+MONTH_NAMES[selEnd.month]+' '+currentYear;
+  }
+  const sLabel=sDay+' '+MONTH_SHORT[selStart.month];
+  const eLabel=eDay+' '+MONTH_SHORT[selEnd.month];
+  if(selStart.month===selEnd.month&&selStart.day===selEnd.day)return sLabel+' '+currentYear;
+  return sLabel+' \u2014 '+eLabel+' '+currentYear;
+}
+
+function toggleCalendar(){
+  calOpen=!calOpen;
+  document.getElementById('calDropdown').classList.toggle('show',calOpen);
+  document.getElementById('calOverlay').classList.toggle('show',calOpen);
+  document.getElementById('dpTrigger').classList.toggle('open',calOpen);
+  if(calOpen){
+    calViewYear=parseInt(currentYear);
+    calViewMonth=selMode==='range'?selStart.month-(selStart.month%2):0;
+    renderCalendar();
+  }
+}
+function closeCalendar(){
+  calOpen=false;
+  document.getElementById('calDropdown').classList.remove('show');
+  document.getElementById('calOverlay').classList.remove('show');
+  document.getElementById('dpTrigger').classList.remove('open');
+}
+
+function calNav(delta){
+  calViewMonth+=delta;
+  if(calViewMonth<0){calViewMonth+=12;calViewYear--}
+  if(calViewMonth>10){calViewMonth-=12;calViewYear++}
+  if(calViewYear<2025){calViewYear=2025;calViewMonth=0}
+  if(calViewYear>2026){calViewYear=2026;calViewMonth=10}
+  renderCalendar();
+}
+
+function calSwitchYear(y){
+  currentYear=y;
+  calViewYear=parseInt(y);
+  calViewMonth=0;
+  calSelStartDay=null;calSelEndDay=null;
+  selMode='annual';
+  document.querySelectorAll('.cal-year-tab').forEach(b=>b.classList.toggle('active',b.textContent===y));
+  updatePresetUI();
+  updateSelectionText();
+  renderCalendar();
+}
+
+function calPreset(p){
+  currentYear=String(calViewYear);
+  const yr=calViewYear;
+  calSelStartDay=null;calSelEndDay=null;
+  if(p==='annual'){selMode='annual'}
+  else{
+    selMode='range';
+    let fm,tm;
+    if(p==='t1'){fm=0;tm=2}
+    else if(p==='t2'){fm=3;tm=5}
+    else if(p==='t3'){fm=6;tm=8}
+    else if(p==='t4'){fm=9;tm=11}
+    else if(p==='s1'){fm=0;tm=5}
+    else if(p==='s2'){fm=6;tm=11}
+    selStart={month:fm,day:0};
+    selEnd={month:tm,day:daysInMonthCal(yr,tm)-1};
+  }
+  updatePresetUI();
+  updateSelectionText();
+  renderCalendar();
+}
+
+function calDayClick(year,month,day){
+  currentYear=String(year);
+  selMode='range';
+  if(!calSelStartDay||calSelEndDay){
+    calSelStartDay={year,month,day};
+    calSelEndDay=null;
+  }else{
+    calSelEndDay={year,month,day};
+    const sv=calSelStartDay.year*10000+calSelStartDay.month*100+calSelStartDay.day;
+    const ev=calSelEndDay.year*10000+calSelEndDay.month*100+calSelEndDay.day;
+    if(sv>ev){const tmp=calSelStartDay;calSelStartDay=calSelEndDay;calSelEndDay=tmp}
+    selStart={month:calSelStartDay.month,day:calSelStartDay.day-1};
+    selEnd={month:calSelEndDay.month,day:calSelEndDay.day-1};
+  }
+  document.querySelectorAll('.cal-year-tab').forEach(b=>b.classList.toggle('active',b.textContent===currentYear));
+  updatePresetUI();
+  updateSelectionText();
+  renderCalendar();
+}
+
+function calApply(){
+  document.getElementById('dpLabel').textContent=getPeriodLabel();
+  renderStats();
+  renderCards();
+  closeCalendar();
+}
+
+function updatePresetUI(){
+  document.querySelectorAll('.cal-preset').forEach(el=>el.classList.remove('active'));
+  if(selMode==='annual'){
+    const el=document.querySelector('.cal-preset[onclick*="annual"]');
+    if(el)el.classList.add('active');
+  }else{
+    const fm=selStart.month,tm=selEnd.month;
+    const yr=parseInt(currentYear);
+    const full=selStart.day===0&&selEnd.day>=daysInMonthCal(yr,tm)-1;
+    if(full){
+      let sel=null;
+      if(fm===0&&tm===2)sel='t1';
+      else if(fm===3&&tm===5)sel='t2';
+      else if(fm===6&&tm===8)sel='t3';
+      else if(fm===9&&tm===11)sel='t4';
+      else if(fm===0&&tm===5)sel='s1';
+      else if(fm===6&&tm===11)sel='s2';
+      if(sel){const el=document.querySelector('.cal-preset[onclick*="'+sel+'"]');if(el)el.classList.add('active')}
+    }
+  }
+}
+
+function updateSelectionText(){
+  const txt=document.getElementById('calSelText');
+  if(txt)txt.textContent=getPeriodLabel();
+}
+
+function renderCalendar(){
+  const container=document.getElementById('calMonths');
+  const title=document.getElementById('calNavTitle');
+  const m1=calViewMonth;
+  const m2=calViewMonth+1;
+  const y1=calViewYear;
+  const y2=m2>11?calViewYear+1:calViewYear;
+  const m2adj=m2>11?0:m2;
+  if(y1!==y2)title.textContent=MONTH_NAMES[m1]+' '+y1+' \u2014 '+MONTH_NAMES[m2adj]+' '+y2;
+  else title.textContent=MONTH_NAMES[m1]+' \u2014 '+MONTH_NAMES[m2adj]+' '+y1;
+  container.innerHTML=renderMonthGrid(y1,m1)+renderMonthGrid(y2,m2adj);
+  updateSelectionText();
+}
+
+function renderMonthGrid(year,month){
+  const days=daysInMonthCal(year,month);
+  const firstDay=firstDayOfMonth(year,month);
+  const today=new Date();
+  const isCurrentMonth=today.getFullYear()===year&&today.getMonth()===month;
+  const cy=parseInt(currentYear);
+
+  let html='<div class="cal-month">';
+  html+='<div class="cal-month-label">'+MONTH_NAMES[month]+' '+year+'</div>';
+  html+='<div class="cal-weekdays">'+WEEKDAYS.map(w=>'<div class="cal-wd">'+w+'</div>').join('')+'</div>';
+  html+='<div class="cal-days">';
+
+  for(let i=0;i<firstDay;i++)html+='<div class="cal-day empty"></div>';
+
+  for(let d=1;d<=days;d++){
+    let cls='cal-day';
+    if(isCurrentMonth&&d===today.getDate())cls+=' today';
+
+    if(calSelStartDay&&calSelEndDay){
+      const dv=year*10000+month*100+d;
+      const sv=calSelStartDay.year*10000+calSelStartDay.month*100+calSelStartDay.day;
+      const ev=calSelEndDay.year*10000+calSelEndDay.month*100+calSelEndDay.day;
+      if(dv===sv&&dv===ev)cls+=' selected';
+      else if(dv===sv)cls+=' range-start';
+      else if(dv===ev)cls+=' range-end';
+      else if(dv>sv&&dv<ev)cls+=' in-range';
+    }else if(calSelStartDay&&!calSelEndDay){
+      const dv=year*10000+month*100+d;
+      const sv=calSelStartDay.year*10000+calSelStartDay.month*100+calSelStartDay.day;
+      if(dv===sv)cls+=' selected';
+    }else if(year===cy){
+      if(selMode==='annual'){
+        cls+=' in-range';
+      }else{
+        const dv=month*100+d;
+        const sv=selStart.month*100+(selStart.day+1);
+        const ev=selEnd.month*100+(selEnd.day+1);
+        if(dv===sv&&dv===ev)cls+=' selected';
+        else if(dv===sv)cls+=' range-start';
+        else if(dv===ev)cls+=' range-end';
+        else if(dv>sv&&dv<ev)cls+=' in-range';
+      }
+    }
+
+    html+='<div class="'+cls+'" onclick="calDayClick('+year+','+month+','+d+')">'+d+'</div>';
+  }
+
+  html+='</div></div>';
+  return html;
+}
+
+/* ══ INIT ══ */
 loadData();
 </script>
 </body>
