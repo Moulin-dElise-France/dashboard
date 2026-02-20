@@ -175,6 +175,31 @@ td.leads{color:var(--gold);font-weight:700}
 .camp-badge.recrutement{background:rgba(39,174,96,0.1);color:var(--recrutement)}
 .camp-badge.leadgen{background:rgba(192,57,43,0.1);color:var(--leadgen)}
 
+/* ══ CREATIVES ══ */
+.crea-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.crea-sort{display:flex;align-items:center;gap:6px}
+.crea-sort label{font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.5px}
+.crea-sort select{font-family:inherit;font-size:12px;font-weight:600;padding:5px 10px;border:1px solid var(--border-strong);border-radius:8px;background:var(--bg-card);color:var(--text-primary);cursor:pointer}
+.crea-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+.crea-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;transition:all .25s}
+.crea-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.crea-card-top{display:flex;gap:14px;padding:16px 16px 12px}
+.crea-thumb{width:88px;height:88px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;background:var(--bg);border:1px solid var(--border)}
+.crea-thumb img{width:100%;height:100%;object-fit:cover;image-rendering:auto}
+.crea-thumb-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:10px;text-align:center;padding:8px}
+.crea-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.crea-body{font-size:12px;color:var(--text-primary);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.crea-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.crea-type{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.3px}
+.crea-type.video{background:rgba(52,152,219,0.1);color:var(--trafic)}
+.crea-type.static{background:rgba(155,89,182,0.1);color:var(--notoriete)}
+.crea-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.crea-metric{background:var(--bg-card);padding:10px 12px;text-align:center}
+.crea-metric-val{font-size:15px;font-weight:800;color:var(--text-primary);letter-spacing:-.3px}
+.crea-metric-label{font-size:9px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.crea-video-bar{display:flex;gap:1px;background:var(--border)}
+.crea-video-bar .crea-metric{flex:1}
+
 /* ══ CALENDAR PAGE ══ */
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cal-title{font-size:16px;font-weight:700}
@@ -250,6 +275,10 @@ td.leads{color:var(--gold);font-weight:700}
       <button class="nav-item" data-page="campaigns">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         Meta Ads
+      </button>
+      <button class="nav-item" data-page="creatives">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg>
+        Creatives
       </button>
     </div>
     <div class="nav-section">
@@ -361,6 +390,27 @@ td.leads{color:var(--gold);font-weight:700}
       <table class="data-table" id="campTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
     </div>
 
+    <!-- PAGE: CREATIVES -->
+    <div class="page-view" id="page-creatives">
+      <h3 class="sec-title"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#BF8D50" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Performance Creatives</h3>
+      <p class="sec-sub">Analyse des creations publicitaires — Trafic, Engagement, Notoriete</p>
+      <div class="kpi-grid" id="creaKpis"></div>
+      <div class="crea-toolbar">
+        <div class="filter-pills" id="creaFilters"></div>
+        <div class="crea-sort">
+          <label>Trier par</label>
+          <select id="creaSort" onchange="renderCreatives()">
+            <option value="impressions">Impressions</option>
+            <option value="clicks">Clics</option>
+            <option value="cost">Depenses</option>
+            <option value="ctr">CTR</option>
+            <option value="reactions">Reactions</option>
+          </select>
+        </div>
+      </div>
+      <div class="crea-grid" id="creaGrid"></div>
+    </div>
+
     <!-- PAGE: CALENDAR -->
     <div class="page-view" id="page-calendar">
       <h3 class="sec-title">Calendrier jour par jour</h3>
@@ -387,6 +437,15 @@ td.leads{color:var(--gold);font-weight:700}
         <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok" id="connStatus">Connecte</span></div>
         <div class="conn-row"><span class="conn-label">Derniere donnee</span><span class="conn-val" id="connLastDate">--</span></div>
         <div class="conn-row"><span class="conn-label">Lignes chargees</span><span class="conn-val" id="connRows">--</span></div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-title">Meta Ads — Creatives (Supermetrics)</div>
+        <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">CREATIVE NATIONAL</span></div>
+        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">1355868343</span></div>
+        <div class="conn-row"><span class="conn-label">Niveau</span><span class="conn-val">Ad (Creative)</span></div>
+        <div class="conn-row"><span class="conn-label">Filtre</span><span class="conn-val">Trafic, Engagement, Notoriete</span></div>
+        <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok">Connecte</span></div>
+        <div class="conn-row"><span class="conn-label">Creatives chargees</span><span class="conn-val" id="connCreaRows">--</span></div>
       </div>
       <div class="conn-card">
         <div class="conn-title">Informations client</div>
@@ -423,13 +482,20 @@ const TYPE_DETECT=[
 ];
 const charts={};
 let allRowsRaw=[],allRows=[],byDate={},byCamp={},allMonths=[],currentMonth='',calFilter='Toutes',campFilter='Toutes';
+const CREA_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=1355868343';
+let creaRowsRaw=[],creaRows=[],creaByAd={},creaFilter='Toutes';
 
 /* ══ DATE PICKER STATE ══ */
 let dpYear='2026',dpMode='annual',dpStart={month:0,day:0},dpEnd={month:11,day:30};
 let dpViewMonth=0,dpViewYear=2026,dpSelStart=null,dpSelEnd=null,dpOpen=false;
 
 /* ── CSV ── */
-function parseCSV(text){const lines=text.trim().split('\n');if(lines.length<2)return[];const h=parseLine(lines[0]);const rows=[];for(let i=1;i<lines.length;i++){const v=parseLine(lines[i]);if(v.length<h.length)continue;const r={};h.forEach((k,j)=>r[k.trim()]=v[j]);rows.push(r)}return rows}
+function parseCSV(text){
+  const records=[];let cur='',inQ=false;
+  for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){inQ=!inQ;cur+=c}else if(c==='\n'&&!inQ){if(cur.trim())records.push(cur);cur=''}else if(c==='\r'&&!inQ){}else cur+=c}
+  if(cur.trim())records.push(cur);
+  if(records.length<2)return[];const h=parseLine(records[0]);const rows=[];for(let i=1;i<records.length;i++){const v=parseLine(records[i]);if(v.length<h.length)continue;const r={};h.forEach((k,j)=>r[k.trim()]=v[j]);rows.push(r)}return rows
+}
 function parseLine(l){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
 function pN(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
 function detectType(name){const n=name.toLowerCase();for(const d of TYPE_DETECT){if(d.match.some(m=>n.includes(m)))return d.type}return'Autre'}
@@ -484,6 +550,18 @@ async function loadData(){
     document.getElementById('statusText').textContent=rows.length+' lignes chargees \u00b7 Derniere donnee: '+dates[dates.length-1];
     document.getElementById('connLastDate').textContent=dates[dates.length-1];
     document.getElementById('connRows').textContent=rows.length;
+    try{
+      const cResp=await fetch(CREA_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
+      if(cResp.ok){
+        const cText=await cResp.text();
+        const cAll=parseCSV(cText);
+        creaRowsRaw=cAll;
+        processCreaData(filterByRange(cAll));
+        document.getElementById('statusText').textContent+=' + '+cAll.length+' lignes Creatives';
+        const creaCount=Object.keys(creaByAd).length;
+        const el=document.getElementById('connCreaRows');if(el)el.textContent=creaCount+' creatives uniques';
+      }
+    }catch(ce){console.warn('Creatives:',ce)}
     renderAll();
   }catch(e){
     console.error(e);
@@ -495,6 +573,7 @@ async function loadData(){
 
 function renderAll(){
   renderOverviewKPIs();renderOverviewCharts();renderPerformanceTable();renderCampaignPage();renderCalendarFilters();renderCalendar();
+  renderCreativesPage();
 }
 
 /* ── OVERVIEW KPIs ── */
@@ -715,6 +794,7 @@ function dpDayClick(year,month,day){
 function dpApply(){
   document.getElementById('dpLabel').textContent=getDpLabel();
   processData(filterByRange(allRowsRaw));
+  if(creaRowsRaw.length)processCreaData(filterByRange(creaRowsRaw));
   renderAll();
   closeDatePicker();
 }
@@ -763,6 +843,90 @@ function renderDPMonth(year,month){
     html+='<div class="'+cls+'" onclick="dpDayClick('+year+','+month+','+d+')">'+d+'</div>';
   }
   html+='</div></div>';return html;
+}
+
+/* ══ CREATIVES ══ */
+function processCreaData(rows){
+  creaRows=rows;creaByAd={};
+  rows.forEach(r=>{
+    const id=r['Ad ID']||'';const name=r['Ad name']||'';const camp=r['Campaign name']||'';
+    const type=detectType(camp);
+    if(type!=='Trafic'&&type!=='Engagement'&&type!=='Notoriete')return;
+    const thumb=r['Ad creative thumbnail URL']||'';const creaName=r['Creative name']||'';const body=r['Ad body']||'';
+    const imp=pN(r['Impressions']),reach=pN(r['Reach']),clicks=pN(r['Clicks (all)']),cost=pN(r['Cost (EUR)']),reactions=pN(r['Post reactions']);
+    const v50=pN(r['Video watches at 50%']),v100=pN(r['Video watches at 100%']),thruplay=pN(r['ThruPlay actions']);
+    if(!creaByAd[id])creaByAd[id]={id,name,camp,thumb:'',creativeName:'',body:'',isVideo:false,impressions:0,reach:0,clicks:0,cost:0,reactions:0,v50:0,v100:0,thruplay:0,type};
+    const a=creaByAd[id];
+    a.impressions+=imp;a.reach+=reach;a.clicks+=clicks;a.cost+=cost;a.reactions+=reactions;a.v50+=v50;a.v100+=v100;a.thruplay+=thruplay;
+    if(thumb)a.thumb=thumb;
+    if(creaName&&!a.creativeName)a.creativeName=creaName;
+    if(body&&!a.body)a.body=body;
+    if(v50>0||v100>0||thruplay>0)a.isVideo=true;
+  });
+}
+function renderCreativesPage(){
+  if(!Object.keys(creaByAd).length)return;
+  renderCreaKPIs();renderCreaFilters();renderCreatives();
+}
+function renderCreaKPIs(){
+  const ads=Object.values(creaByAd);
+  const total=ads.length,videos=ads.filter(a=>a.isVideo).length,statics=total-videos;
+  let imp=0,clk=0,cost=0,react=0;
+  ads.forEach(a=>{imp+=a.impressions;clk+=a.clicks;cost+=a.cost;react+=a.reactions});
+  document.getElementById('creaKpis').innerHTML=
+    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Creatives</span><div class="kpi-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div></div><div class="kpi-value">'+total+'</div><div class="kpi-sub">'+videos+' videos · '+statics+' statics</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div><div class="kpi-sub">Toutes creatives</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div><div class="kpi-sub">CTR moy: '+(imp?fmtPct(clk/imp*100):'--')+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div><div class="kpi-sub">Cout/clic: '+(clk?fmtE(cost/clk):'--')+'</div></div>';
+}
+function renderCreaFilters(){
+  let html='<button class="pill'+(creaFilter==='Toutes'?' active':'')+'" onclick="setCreaFilter(\'Toutes\')">Toutes</button>';
+  html+='<button class="pill'+(creaFilter==='Video'?' active':'')+'" onclick="setCreaFilter(\'Video\')"><span class="dot" style="background:#3498db"></span>Video</button>';
+  html+='<button class="pill'+(creaFilter==='Static'?' active':'')+'" onclick="setCreaFilter(\'Static\')"><span class="dot" style="background:#9b59b6"></span>Static</button>';
+  const types=[...new Set(Object.values(creaByAd).map(a=>a.type))];
+  types.forEach(t=>{const det=TYPE_DETECT.find(d=>d.type===t);html+='<button class="pill'+(creaFilter===t?' active':'')+'" onclick="setCreaFilter(\''+t+'\')"><span class="dot" style="background:'+(det?det.color:'#999')+'"></span>'+t+'</button>'});
+  document.getElementById('creaFilters').innerHTML=html;
+}
+function setCreaFilter(f){
+  creaFilter=f;renderCreaFilters();renderCreatives();
+}
+function renderCreatives(){
+  let ads=Object.values(creaByAd);
+  if(creaFilter==='Video')ads=ads.filter(a=>a.isVideo);
+  else if(creaFilter==='Static')ads=ads.filter(a=>!a.isVideo);
+  else if(creaFilter!=='Toutes')ads=ads.filter(a=>a.type===creaFilter);
+  const sortBy=document.getElementById('creaSort')?.value||'impressions';
+  if(sortBy==='ctr')ads.sort((a,b)=>{const ca=a.impressions?a.clicks/a.impressions:0;const cb=b.impressions?b.clicks/b.impressions:0;return cb-ca});
+  else ads.sort((a,b)=>(b[sortBy]||0)-(a[sortBy]||0));
+  let html='';
+  ads.forEach(ad=>{
+    const ctr=ad.impressions?(ad.clicks/ad.impressions*100):0;
+    const det=TYPE_DETECT.find(d=>d.type===ad.type);
+    const campCls=det?det.cls:'';
+    html+='<div class="crea-card">';
+    html+='<div class="crea-card-top">';
+    if(ad.thumb)html+='<div class="crea-thumb"><img src="'+ad.thumb+'" alt="" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=crea-thumb-empty>Apercu indisponible</div>\'"></div>';
+    else html+='<div class="crea-thumb"><div class="crea-thumb-empty">'+(ad.isVideo?'Video':'Image')+'</div></div>';
+    const bodyText=ad.body||ad.name;
+    html+='<div class="crea-info">';
+    html+='<div class="crea-body" title="'+bodyText.replace(/"/g,'&amp;quot;').replace(/\n/g,' ')+'">'+bodyText.replace(/\n/g,' ')+'</div>';
+    html+='<div class="crea-badges">';
+    html+='<span class="crea-type '+(ad.isVideo?'video':'static')+'">'+(ad.isVideo?'Video':'Static')+'</span>';
+    html+='<span class="camp-badge '+campCls+'">'+ad.type+'</span>';
+    html+='</div></div></div>';
+    html+='<div class="crea-metrics">';
+    html+='<div class="crea-metric"><div class="crea-metric-val">'+fmt(ad.impressions)+'</div><div class="crea-metric-label">Impressions</div></div>';
+    html+='<div class="crea-metric"><div class="crea-metric-val">'+fmt(ad.clicks)+'</div><div class="crea-metric-label">Clics</div></div>';
+    html+='<div class="crea-metric"><div class="crea-metric-val">'+fmtPct(ctr)+'</div><div class="crea-metric-label">CTR</div></div>';
+    html+='</div>';
+    html+='<div class="crea-video-bar">';
+    html+='<div class="crea-metric"><div class="crea-metric-val">'+fmtE(ad.cost)+'</div><div class="crea-metric-label">Depenses</div></div>';
+    html+='<div class="crea-metric"><div class="crea-metric-val">'+fmt(ad.reactions)+'</div><div class="crea-metric-label">Reactions</div></div>';
+    if(ad.isVideo)html+='<div class="crea-metric"><div class="crea-metric-val">'+fmt(ad.thruplay)+'</div><div class="crea-metric-label">ThruPlay</div></div>';
+    else html+='<div class="crea-metric"><div class="crea-metric-val">'+fmt(ad.reach)+'</div><div class="crea-metric-label">Portee</div></div>';
+    html+='</div></div>';
+  });
+  document.getElementById('creaGrid').innerHTML=html||'<p style="color:var(--text-tertiary);font-size:13px">Aucune creative trouvee pour ce filtre.</p>';
 }
 
 /* ── NAVIGATION ── */
