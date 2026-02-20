@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Le Moulin d'Elise — Carquefou</title>
+<title>Le Moulin d'Elise — Langueux</title>
 <link rel="icon" href="https://moulindelise.com/wp-content/uploads/2024/03/cropped-logo-moulin-elise-01-1-32x32.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -149,13 +149,6 @@ body{font-family:'Plus Jakarta Sans','Inter',sans-serif;background:var(--bg);col
 .chart-box-title{font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
 .chart-container{position:relative;height:260px}
 
-/* ══ CAMPAIGN FILTER PILLS ══ */
-.filter-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
-.pill{font-family:inherit;font-size:12px;font-weight:600;padding:6px 14px;border:1px solid var(--border-strong);background:var(--bg-card);color:var(--text-secondary);cursor:pointer;border-radius:20px;transition:all .2s}
-.pill:hover{border-color:var(--gold);color:var(--gold)}
-.pill.active{background:var(--gold);color:#fff;border-color:var(--gold)}
-.pill .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
-
 /* ══ DATA TABLE ══ */
 .data-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:24px}
 .data-table thead th{font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.5px;padding:12px 12px;text-align:right;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -167,13 +160,6 @@ body{font-family:'Plus Jakarta Sans','Inter',sans-serif;background:var(--bg);col
 .data-table tfoot td{font-size:13px;font-weight:800;padding:12px 12px;text-align:right;background:var(--gold-bg);border-top:2px solid var(--gold)}
 .data-table tfoot td:first-child{text-align:left;padding-left:16px;color:var(--gold-dark)}
 td.cost{color:#c0392b}
-td.leads{color:var(--gold);font-weight:700}
-.camp-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.3px}
-.camp-badge.trafic{background:rgba(52,152,219,0.1);color:var(--trafic)}
-.camp-badge.engagement{background:rgba(230,126,34,0.1);color:var(--engagement)}
-.camp-badge.notoriete{background:rgba(155,89,182,0.1);color:var(--notoriete)}
-.camp-badge.recrutement{background:rgba(39,174,96,0.1);color:var(--recrutement)}
-.camp-badge.leadgen{background:rgba(192,57,43,0.1);color:var(--leadgen)}
 
 /* ══ CALENDAR PAGE ══ */
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -230,7 +216,7 @@ td.leads{color:var(--gold);font-weight:700}
     <img class="sidebar-logo" src="https://moulindelise.com/wp-content/uploads/logo-moulin-elise-01.svg" alt="Logo">
     <div class="sidebar-brand-text">
       <h2>Le Moulin d'Elise</h2>
-      <span>Carquefou</span>
+      <span>Langueux</span>
     </div>
   </a>
   <nav class="sidebar-nav">
@@ -240,17 +226,9 @@ td.leads{color:var(--gold);font-weight:700}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         Vue d'ensemble
       </button>
-      <button class="nav-item" data-page="performances">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-        Performances
-      </button>
     </div>
     <div class="nav-section">
       <div class="nav-section-title">Campagnes</div>
-      <button class="nav-item" data-page="campaigns">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        Meta Ads
-      </button>
       <button class="nav-item" data-page="googleads">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Google Ads
@@ -313,7 +291,7 @@ td.leads{color:var(--gold);font-weight:700}
 <div class="main">
   <div class="topbar">
     <div class="topbar-left">
-      <span class="topbar-title">Carquefou</span>
+      <span class="topbar-title">Langueux</span>
       <span class="topbar-sep">/</span>
       <span class="topbar-page" id="breadcrumb">Vue d'ensemble</span>
     </div>
@@ -333,50 +311,20 @@ td.leads{color:var(--gold);font-weight:700}
       <span id="statusText"></span>
     </div>
 
-    <!-- PAGE: VUE D'ENSEMBLE -->
+    <!-- PAGE: VUE D'ENSEMBLE (Google Ads) -->
     <div class="page-view active" id="page-overview">
-      <h3 class="sec-title"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#BF8D50" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Meta Ads</h3>
-      <p class="sec-sub">Campagnes Meta — Carquefou</p>
+      <h3 class="sec-title"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Google Ads</h3>
+      <p class="sec-sub">Campagne Search Local — Langueux</p>
       <div class="kpi-grid" id="overviewKpis"></div>
       <div class="charts-grid">
-        <div class="chart-box"><div class="chart-box-title">Impressions par jour</div><div class="chart-container"><canvas id="chartImpDay"></canvas></div></div>
-        <div class="chart-box"><div class="chart-box-title">Clics par jour</div><div class="chart-container"><canvas id="chartClkDay"></canvas></div></div>
-        <div class="chart-box"><div class="chart-box-title">Depenses par jour</div><div class="chart-container"><canvas id="chartCostDay"></canvas></div></div>
-        <div class="chart-box"><div class="chart-box-title">Leads par jour</div><div class="chart-container"><canvas id="chartLeadsDay"></canvas></div></div>
-      </div>
-      <div class="chart-box" style="margin-bottom:24px"><div class="chart-box-title">Repartition des depenses par campagne</div><div class="chart-container"><canvas id="chartCostPie"></canvas></div></div>
-      <h3 class="sec-title" style="margin-top:8px"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Google Ads</h3>
-      <p class="sec-sub">Campagne Search Local — Carquefou</p>
-      <div class="kpi-grid" id="gadsOverviewKpis"></div>
-      <div class="charts-grid">
-        <div class="chart-box"><div class="chart-box-title">Clics Google Ads par jour</div><div class="chart-container"><canvas id="chartGadsOverClk"></canvas></div></div>
-        <div class="chart-box"><div class="chart-box-title">Impressions Google Ads par jour</div><div class="chart-container"><canvas id="chartGadsOverImp"></canvas></div></div>
+        <div class="chart-box"><div class="chart-box-title">Clics Google Ads par jour</div><div class="chart-container"><canvas id="chartClkDay"></canvas></div></div>
+        <div class="chart-box"><div class="chart-box-title">Impressions Google Ads par jour</div><div class="chart-container"><canvas id="chartImpDay"></canvas></div></div>
       </div>
     </div>
 
-    <!-- PAGE: PERFORMANCES -->
-    <div class="page-view" id="page-performances">
-      <h3 class="sec-title">Performances detaillees</h3>
-      <p class="sec-sub">Donnees agregees par campagne, triees par depenses</p>
-      <table class="data-table" id="perfTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
-    </div>
-
-    <!-- PAGE: CAMPAIGNS (META ADS DETAIL) -->
-    <div class="page-view" id="page-campaigns">
-      <h3 class="sec-title">Meta Ads — Detail par campagne</h3>
-      <p class="sec-sub">Filtrez par type de campagne</p>
-      <div class="filter-pills" id="campFilters"></div>
-      <div class="kpi-grid" id="campKpis"></div>
-      <div class="charts-grid">
-        <div class="chart-box"><div class="chart-box-title">Impressions (filtre)</div><div class="chart-container"><canvas id="chartCampImp"></canvas></div></div>
-        <div class="chart-box"><div class="chart-box-title">Clics (filtre)</div><div class="chart-container"><canvas id="chartCampClk"></canvas></div></div>
-      </div>
-      <table class="data-table" id="campTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
-    </div>
-
-    <!-- PAGE: GOOGLE ADS -->
+    <!-- PAGE: GOOGLE ADS DETAIL -->
     <div class="page-view" id="page-googleads">
-      <h3 class="sec-title">Google Ads — Search Local Carquefou</h3>
+      <h3 class="sec-title">Google Ads — Search Local Langueux</h3>
       <p class="sec-sub">Detail quotidien de la campagne de recherche locale</p>
       <div class="kpi-grid" id="gadsKpis"></div>
       <div class="charts-grid">
@@ -390,8 +338,7 @@ td.leads{color:var(--gold);font-weight:700}
     <!-- PAGE: CALENDAR -->
     <div class="page-view" id="page-calendar">
       <h3 class="sec-title">Calendrier jour par jour</h3>
-      <p class="sec-sub">Navigation mensuelle avec detail quotidien</p>
-      <div class="filter-pills" id="calFilters"></div>
+      <p class="sec-sub">Navigation mensuelle — Google Ads</p>
       <div class="cal-header">
         <span class="cal-title" id="calTitle"></span>
         <div class="cal-pg-nav">
@@ -407,28 +354,20 @@ td.leads{color:var(--gold);font-weight:700}
       <h3 class="sec-title">Connexions & Sources</h3>
       <p class="sec-sub">Statut des sources de donnees</p>
       <div class="conn-card">
-        <div class="conn-title">Google Sheets — Supermetrics</div>
-        <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">CARQUEFOU</span></div>
-        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">699035284</span></div>
+        <div class="conn-title">Google Ads — Supermetrics</div>
+        <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">GOOGLE ADS</span></div>
+        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">2003247368</span></div>
+        <div class="conn-row"><span class="conn-label">Campagne</span><span class="conn-val">Search Local Langueux</span></div>
         <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok" id="connStatus">Connecte</span></div>
         <div class="conn-row"><span class="conn-label">Derniere donnee</span><span class="conn-val" id="connLastDate">--</span></div>
         <div class="conn-row"><span class="conn-label">Lignes chargees</span><span class="conn-val" id="connRows">--</span></div>
       </div>
       <div class="conn-card">
-        <div class="conn-title">Google Ads — Supermetrics</div>
-        <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">GOOGLE ADS</span></div>
-        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">2003247368</span></div>
-        <div class="conn-row"><span class="conn-label">Campagne</span><span class="conn-val">Search Local Carquefou</span></div>
-        <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok" id="connGadsStatus">Connecte</span></div>
-        <div class="conn-row"><span class="conn-label">Derniere donnee</span><span class="conn-val" id="connGadsLastDate">--</span></div>
-        <div class="conn-row"><span class="conn-label">Lignes chargees</span><span class="conn-val" id="connGadsRows">--</span></div>
-      </div>
-      <div class="conn-card">
         <div class="conn-title">Informations client</div>
         <div class="conn-row"><span class="conn-label">Client</span><span class="conn-val">Le Moulin d'Elise</span></div>
-        <div class="conn-row"><span class="conn-label">Entite</span><span class="conn-val">Carquefou (44)</span></div>
+        <div class="conn-row"><span class="conn-label">Entite</span><span class="conn-val">Langueux (22)</span></div>
         <div class="conn-row"><span class="conn-label">Site web</span><span class="conn-val"><a href="https://moulindelise.com" target="_blank" style="color:var(--gold)">moulindelise.com</a></span></div>
-        <div class="conn-row"><span class="conn-label">Version dashboard</span><span class="conn-val">2.0</span></div>
+        <div class="conn-row"><span class="conn-label">Version dashboard</span><span class="conn-val">1.0</span></div>
       </div>
     </div>
 
@@ -441,40 +380,30 @@ td.leads{color:var(--gold);font-weight:700}
 
 <script>
 /* ══════════════════════════════════════════════
-   LE MOULIN D'ELISE — DASHBOARD CARQUEFOU
+   LE MOULIN D'ELISE — DASHBOARD LANGUEUX
+   Google Ads uniquement
    ══════════════════════════════════════════════ */
 Chart.defaults.font.family="'Plus Jakarta Sans','Inter',sans-serif";
-const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=699035284';
+const GADS_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=2003247368';
+const GADS_CITY='langueux';
 const MONTHS_FR=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
 const MONTH_SHORT=['Jan','Fev','Mar','Avr','Mai','Jun','Jul','Aou','Sep','Oct','Nov','Dec'];
 const WEEKDAYS=['L','M','M','J','V','S','D'];
-const TYPE_DETECT=[
-  {type:'LeadGen',cls:'leadgen',color:'#c0392b',match:['leadgen','lead_gen','lead gen']},
-  {type:'Trafic',cls:'trafic',color:'#3498db',match:['trafic']},
-  {type:'Engagement',cls:'engagement',color:'#e67e22',match:['engagement']},
-  {type:'Notoriete',cls:'notoriete',color:'#9b59b6',match:['notori']},
-  {type:'Recrutement',cls:'recrutement',color:'#27ae60',match:['recrutement']}
-];
-const GADS_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=2003247368';
-const GADS_CITY='carquefou';
 const charts={};
-let allRowsRaw=[],allRows=[],byDate={},byCamp={},allMonths=[],currentMonth='',calFilter='Toutes',campFilter='Toutes';
-let gadsRowsRaw=[],gadsRows=[],gadsByDate={};
-
-/* ══ DATE PICKER STATE ══ */
-let dpYear='2026',dpMode='annual',dpStart={month:0,day:0},dpEnd={month:11,day:30};
-let dpViewMonth=0,dpViewYear=2026,dpSelStart=null,dpSelEnd=null,dpOpen=false;
+let gadsRowsRaw=[],gadsRows=[],gadsByDate={},allMonths=[],currentMonth='';
 
 /* ── CSV ── */
 function parseCSV(text){const lines=text.trim().split('\n');if(lines.length<2)return[];const h=parseLine(lines[0]);const rows=[];for(let i=1;i<lines.length;i++){const v=parseLine(lines[i]);if(v.length<h.length)continue;const r={};h.forEach((k,j)=>r[k.trim()]=v[j]);rows.push(r)}return rows}
 function parseLine(l){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
 function pN(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
-function detectType(name){const n=name.toLowerCase();for(const d of TYPE_DETECT){if(d.match.some(m=>n.includes(m)))return d.type}return'Autre'}
 function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
 function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
 function fmtPct(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' %'}
 
 /* ── DATE RANGE ── */
+let dpYear='2026',dpMode='annual',dpStart={month:0,day:0},dpEnd={month:11,day:30};
+let dpViewMonth=0,dpViewYear=2026,dpSelStart=null,dpSelEnd=null,dpOpen=false;
+
 function getDpRange(){
   const yr=parseInt(dpYear);
   if(dpMode==='annual')return{start:yr+'-01-01',end:yr+'-12-31'};
@@ -488,19 +417,13 @@ function filterByRange(rows){const r=getDpRange();return rows.filter(x=>{const d
 
 /* ── PROCESS DATA ── */
 function processData(rows){
-  allRows=rows;byDate={};byCamp={};
+  gadsRows=rows;gadsByDate={};
   rows.forEach(r=>{
-    const date=r['Date'];const name=r['Campaign name']||'';const type=detectType(name);
-    const entry={date,name,type,impressions:pN(r['Impressions']),reach:pN(r['Reach']),clicks:pN(r['Clicks (all)']),cost:pN(r['Cost (EUR)']),video50:pN(r['Video watches at 50%']),video100:pN(r['Video watches at 100%']),leads:pN(r['On-Facebook leads']),reactions:pN(r['Post reactions'])};
-    if(!byDate[date])byDate[date]={};
-    if(!byDate[date][type])byDate[date][type]={impressions:0,clicks:0,cost:0,leads:0,reactions:0,reach:0};
-    const dd=byDate[date][type];dd.impressions+=entry.impressions;dd.clicks+=entry.clicks;dd.cost+=entry.cost;dd.leads+=entry.leads;dd.reactions+=entry.reactions;dd.reach+=entry.reach;
-    if(!byDate[date]._all)byDate[date]._all={impressions:0,clicks:0,cost:0,leads:0,reactions:0};
-    const da=byDate[date]._all;da.impressions+=entry.impressions;da.clicks+=entry.clicks;da.cost+=entry.cost;da.leads+=entry.leads;da.reactions+=entry.reactions;
-    if(!byCamp[type])byCamp[type]={impressions:0,clicks:0,cost:0,leads:0,reactions:0,reach:0,entries:[]};
-    const bc=byCamp[type];bc.impressions+=entry.impressions;bc.clicks+=entry.clicks;bc.cost+=entry.cost;bc.leads+=entry.leads;bc.reactions+=entry.reactions;bc.reach+=entry.reach;bc.entries.push(entry);
+    const date=r['Date'];
+    if(!gadsByDate[date])gadsByDate[date]={impressions:0,clicks:0,cost:0};
+    const d=gadsByDate[date];d.impressions+=pN(r['Impressions']);d.clicks+=pN(r['Clicks']);d.cost+=pN(r['Cost (EUR)']);
   });
-  const dates=Object.keys(byDate).sort();
+  const dates=Object.keys(gadsByDate).sort();
   allMonths=[...new Set(dates.map(d=>d.substring(0,7)))].sort();
   currentMonth=allMonths[allMonths.length-1]||'2026-02';
 }
@@ -508,35 +431,20 @@ function processData(rows){
 /* ── LOAD ── */
 async function loadData(){
   try{
-    const resp=await fetch(CSV_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
+    const resp=await fetch(GADS_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
     if(!resp.ok)throw new Error('HTTP '+resp.status);
     const text=await resp.text();
-    const rows=parseCSV(text);
-    if(rows.length===0)throw new Error('Aucune donnee');
-    allRowsRaw=rows;
+    const allRows=parseCSV(text);
+    const rows=allRows.filter(r=>(r['Campaign name']||'').toLowerCase().includes(GADS_CITY));
+    if(rows.length===0)throw new Error('Aucune donnee Google Ads pour Langueux');
+    gadsRowsRaw=rows;
     processData(filterByRange(rows));
     const banner=document.getElementById('statusBanner');
     banner.style.display='flex';banner.className='status-banner ok';
-    const dates=allRowsRaw.map(r=>r['Date']).sort();
-    document.getElementById('statusText').textContent=rows.length+' lignes Meta chargees \u00b7 Derniere donnee: '+dates[dates.length-1];
+    const dates=rows.map(r=>r['Date']).sort();
+    document.getElementById('statusText').textContent=rows.length+' lignes Google Ads chargees \u00b7 Derniere donnee: '+dates[dates.length-1];
     document.getElementById('connLastDate').textContent=dates[dates.length-1];
     document.getElementById('connRows').textContent=rows.length;
-    try{
-      const gResp=await fetch(GADS_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
-      if(gResp.ok){
-        const gText=await gResp.text();
-        const gAll=parseCSV(gText);
-        const gRows=gAll.filter(r=>(r['Campaign name']||'').toLowerCase().includes(GADS_CITY));
-        gadsRowsRaw=gRows;
-        processGadsData(filterGadsByRange(gRows));
-        const gDates=gRows.map(r=>r['Date']).sort();
-        if(gDates.length){
-          document.getElementById('connGadsLastDate').textContent=gDates[gDates.length-1];
-          document.getElementById('connGadsRows').textContent=gRows.length;
-          document.getElementById('statusText').textContent+=' + '+gRows.length+' lignes Google Ads';
-        }
-      }
-    }catch(ge){console.warn('Google Ads:',ge)}
     renderAll();
   }catch(e){
     console.error(e);
@@ -547,40 +455,26 @@ async function loadData(){
 }
 
 function renderAll(){
-  renderOverviewKPIs();renderOverviewCharts();renderPerformanceTable();renderCampaignPage();renderCalendarFilters();renderCalendar();
-  renderGadsOverviewKPIs();renderGadsOverviewCharts();renderGadsPage();
+  renderOverviewKPIs();renderOverviewCharts();renderGadsPage();renderCalendar();
 }
 
 /* ── OVERVIEW KPIs ── */
 function renderOverviewKPIs(){
-  let imp=0,clk=0,cost=0,leads=0,react=0,reach=0;
-  allRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks (all)']);cost+=pN(r['Cost (EUR)']);leads+=pN(r['On-Facebook leads']);react+=pN(r['Post reactions']);reach+=pN(r['Reach'])});
+  let imp=0,clk=0,cost=0;
+  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
+  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
   document.getElementById('overviewKpis').innerHTML=
-    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div><div class="kpi-sub">Portee: '+fmt(reach)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div><div class="kpi-sub">CTR moy: '+(imp?fmtPct(clk/imp*100):'--')+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div><div class="kpi-sub">CPC moy: '+(clk?fmtE(cost/clk):'--')+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Leads</span><div class="kpi-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div><div class="kpi-value">'+fmt(leads)+'</div><div class="kpi-sub">CPL moy: '+(leads?fmtE(cost/leads):'--')+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Reactions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div></div><div class="kpi-value">'+fmt(react)+'</div><div class="kpi-sub">Engagement global</div></div>';
+    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div><div class="kpi-sub">Google Search</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div><div class="kpi-sub">CTR: '+fmtPct(ctr)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div><div class="kpi-sub">CPC moy: '+(clk?fmtE(cpc):'--')+'</div></div>';
 }
 
 /* ── OVERVIEW CHARTS ── */
 function renderOverviewCharts(){
-  const dates=Object.keys(byDate).sort();
+  const dates=Object.keys(gadsByDate).sort();
   const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
-  const impData=dates.map(d=>byDate[d]._all?.impressions||0);
-  const clkData=dates.map(d=>byDate[d]._all?.clicks||0);
-  const costData=dates.map(d=>byDate[d]._all?.cost||0);
-  const leadsData=dates.map(d=>byDate[d]._all?.leads||0);
-
-  makeChart('chartImpDay','bar',labels,[{label:'Impressions',data:impData,backgroundColor:'rgba(191,141,80,0.5)',borderColor:'#BF8D50',borderWidth:1,borderRadius:3}]);
-  makeChart('chartClkDay','bar',labels,[{label:'Clics',data:clkData,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:3}]);
-  makeChart('chartCostDay','line',labels,[{label:'Depenses (EUR)',data:costData,borderColor:'#c0392b',backgroundColor:'rgba(192,57,43,0.08)',fill:true,tension:.3,pointRadius:1}]);
-  makeChart('chartLeadsDay','bar',labels,[{label:'Leads',data:leadsData,backgroundColor:'rgba(192,57,43,0.5)',borderColor:'#c0392b',borderWidth:1,borderRadius:3}]);
-
-  const campTypes=Object.keys(byCamp);
-  const pieData=campTypes.map(t=>Math.round(byCamp[t].cost*100)/100);
-  const pieColors=campTypes.map(t=>{const d=TYPE_DETECT.find(x=>x.type===t);return d?d.color:'#999'});
-  makeChart('chartCostPie','doughnut',campTypes,[{data:pieData,backgroundColor:pieColors,borderWidth:0}],{},{cutout:'65%',plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true,font:{size:12}}}}});
+  makeChart('chartClkDay','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
+  makeChart('chartImpDay','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
 }
 
 function makeChart(id,type,labels,datasets,scaleOpts={},extra={}){
@@ -591,77 +485,39 @@ function makeChart(id,type,labels,datasets,scaleOpts={},extra={}){
   charts[id]=new Chart(ctx,config);
 }
 
-/* ── PERFORMANCE TABLE ── */
-function renderPerformanceTable(){
-  const types=Object.keys(byCamp).sort((a,b)=>byCamp[b].cost-byCamp[a].cost);
-  const thead=document.querySelector('#perfTable thead');
-  thead.innerHTML='<tr><th>Campagne</th><th>Impressions</th><th>Clics</th><th>CTR</th><th>Depenses</th><th>Leads</th><th>CPL</th><th>Reactions</th></tr>';
-  const tbody=document.querySelector('#perfTable tbody');tbody.innerHTML='';
-  let tImp=0,tClk=0,tCost=0,tLeads=0,tReact=0;
-  types.forEach(type=>{
-    const c=byCamp[type];tImp+=c.impressions;tClk+=c.clicks;tCost+=c.cost;tLeads+=c.leads;tReact+=c.reactions;
-    const det=TYPE_DETECT.find(d=>d.type===type);
-    const cls=det?det.cls:'';
-    const ctr=c.impressions?fmtPct(c.clicks/c.impressions*100):'--';
-    const cpl=c.leads?fmtE(c.cost/c.leads):'--';
-    tbody.innerHTML+='<tr><td><span class="camp-badge '+cls+'">'+type+'</span></td><td>'+fmt(c.impressions)+'</td><td>'+fmt(c.clicks)+'</td><td>'+ctr+'</td><td class="cost">'+fmtE(c.cost)+'</td><td class="leads">'+fmt(c.leads)+'</td><td>'+cpl+'</td><td>'+fmt(c.reactions)+'</td></tr>';
-  });
-  const tfoot=document.querySelector('#perfTable tfoot');
-  tfoot.innerHTML='<tr><td>Total</td><td>'+fmt(tImp)+'</td><td>'+fmt(tClk)+'</td><td>'+(tImp?fmtPct(tClk/tImp*100):'--')+'</td><td class="cost">'+fmtE(tCost)+'</td><td class="leads">'+fmt(tLeads)+'</td><td>'+(tLeads?fmtE(tCost/tLeads):'--')+'</td><td>'+fmt(tReact)+'</td></tr>';
-}
-
-/* ── CAMPAIGN PAGE ── */
-function renderCampaignPage(){
-  const types=Object.keys(byCamp);
-  let html='<button class="pill active" onclick="setCampFilter(\'Toutes\')">Toutes</button>';
-  types.forEach(t=>{const det=TYPE_DETECT.find(d=>d.type===t);html+='<button class="pill" onclick="setCampFilter(\''+t+'\')"><span class="dot" style="background:'+(det?det.color:'#999')+'"></span>'+t+'</button>'});
-  document.getElementById('campFilters').innerHTML=html;
-  renderCampDetail();
-}
-function setCampFilter(f){
-  campFilter=f;
-  document.querySelectorAll('#campFilters .pill').forEach(b=>b.classList.toggle('active',b.textContent.trim()===f||(!b.querySelector('.dot')&&f==='Toutes')));
-  renderCampDetail();
-}
-function renderCampDetail(){
-  const types=campFilter==='Toutes'?Object.keys(byCamp):[campFilter];
-  let imp=0,clk=0,cost=0,leads=0;
-  types.forEach(t=>{if(byCamp[t]){imp+=byCamp[t].impressions;clk+=byCamp[t].clicks;cost+=byCamp[t].cost;leads+=byCamp[t].leads}});
-  document.getElementById('campKpis').innerHTML=
-    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span></div><div class="kpi-value">'+fmt(imp)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span></div><div class="kpi-value">'+fmt(clk)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span></div><div class="kpi-value">'+fmtE(cost)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Leads</span></div><div class="kpi-value">'+fmt(leads)+'</div></div>';
-  const dates=Object.keys(byDate).sort();
+/* ── GOOGLE ADS DETAIL PAGE ── */
+function renderGadsPage(){
+  const el=document.getElementById('gadsKpis');if(!el)return;
+  let imp=0,clk=0,cost=0;
+  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
+  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
+  el.innerHTML=
+    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CPC moyen</span><div class="kpi-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-value">'+(clk?fmtE(cpc):'--')+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CTR</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div></div><div class="kpi-value">'+fmtPct(ctr)+'</div></div>';
+  const dates=Object.keys(gadsByDate).sort();
   const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
-  const impArr=dates.map(d=>{let v=0;types.forEach(t=>{if(byDate[d]&&byDate[d][t])v+=byDate[d][t].impressions});return v});
-  const clkArr=dates.map(d=>{let v=0;types.forEach(t=>{if(byDate[d]&&byDate[d][t])v+=byDate[d][t].clicks});return v});
-  makeChart('chartCampImp','bar',labels,[{label:'Impressions',data:impArr,backgroundColor:'rgba(191,141,80,0.5)',borderColor:'#BF8D50',borderWidth:1,borderRadius:3}]);
-  makeChart('chartCampClk','bar',labels,[{label:'Clics',data:clkArr,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:3}]);
-
-  const thead=document.querySelector('#campTable thead');
-  thead.innerHTML='<tr><th>Date</th><th>Campagne</th><th>Impressions</th><th>Clics</th><th>Depenses</th><th>Leads</th><th>Reactions</th></tr>';
-  const tbody=document.querySelector('#campTable tbody');tbody.innerHTML='';
-  const filtered=allRows.filter(r=>types.includes(detectType(r['Campaign name']||'')));
-  const last60=filtered.slice(-60);
-  let tI=0,tC=0,tCo=0,tL=0,tR=0;
-  last60.forEach(r=>{
-    const type=detectType(r['Campaign name']||'');const det=TYPE_DETECT.find(d=>d.type===type);
-    const i=pN(r['Impressions']),c=pN(r['Clicks (all)']),co=pN(r['Cost (EUR)']),l=pN(r['On-Facebook leads']),re=pN(r['Post reactions']);
-    tI+=i;tC+=c;tCo+=co;tL+=l;tR+=re;
-    tbody.innerHTML+='<tr><td>'+r['Date']+'</td><td><span class="camp-badge '+(det?det.cls:'')+'">'+type+'</span></td><td>'+fmt(i)+'</td><td>'+fmt(c)+'</td><td class="cost">'+fmtE(co)+'</td><td class="leads">'+(l||'-')+'</td><td>'+(re||'-')+'</td></tr>';
+  makeChart('chartGadsImp','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
+  makeChart('chartGadsClk','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
+  makeChart('chartGadsCost','line',labels,[{label:'Depenses (EUR)',data:dates.map(d=>gadsByDate[d].cost),borderColor:'#ea4335',backgroundColor:'rgba(234,67,53,0.08)',fill:true,tension:.3,pointRadius:2}]);
+  const thead=document.querySelector('#gadsTable thead');
+  thead.innerHTML='<tr><th>Date</th><th>Impressions</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Depenses</th></tr>';
+  const tbody=document.querySelector('#gadsTable tbody');tbody.innerHTML='';
+  let tI=0,tC=0,tCo=0;
+  const sorted=[...gadsRows].sort((a,b)=>(a['Date']||'').localeCompare(b['Date']||''));
+  sorted.forEach(r=>{
+    const i=pN(r['Impressions']),c=pN(r['Clicks']),co=pN(r['Cost (EUR)']);
+    tI+=i;tC+=c;tCo+=co;
+    const ctr2=i?fmtPct(c/i*100):'--';const cpc2=c?fmtE(co/c):'--';
+    tbody.innerHTML+='<tr><td>'+r['Date']+'</td><td>'+fmt(i)+'</td><td>'+fmt(c)+'</td><td>'+ctr2+'</td><td>'+cpc2+'</td><td class="cost">'+fmtE(co)+'</td></tr>';
   });
-  document.querySelector('#campTable tfoot').innerHTML='<tr><td colspan="2">Total ('+last60.length+' lignes)</td><td>'+fmt(tI)+'</td><td>'+fmt(tC)+'</td><td class="cost">'+fmtE(tCo)+'</td><td class="leads">'+fmt(tL)+'</td><td>'+fmt(tR)+'</td></tr>';
+  const tCtr=tI?fmtPct(tC/tI*100):'--';const tCpc=tC?fmtE(tCo/tC):'--';
+  document.querySelector('#gadsTable tfoot').innerHTML='<tr><td>Total ('+sorted.length+' jours)</td><td>'+fmt(tI)+'</td><td>'+fmt(tC)+'</td><td>'+tCtr+'</td><td>'+tCpc+'</td><td class="cost">'+fmtE(tCo)+'</td></tr>';
 }
 
 /* ── CALENDAR PAGE ── */
-function renderCalendarFilters(){
-  const types=Object.keys(byCamp);
-  let html='<button class="pill active" onclick="setCalFilter(\'Toutes\')">Toutes</button>';
-  types.forEach(t=>{const det=TYPE_DETECT.find(d=>d.type===t);html+='<button class="pill" onclick="setCalFilter(\''+t+'\')"><span class="dot" style="background:'+(det?det.color:'#999')+'"></span>'+t+'</button>'});
-  document.getElementById('calFilters').innerHTML=html;
-}
-function setCalFilter(f){calFilter=f;document.querySelectorAll('#calFilters .pill').forEach(b=>b.classList.toggle('active',b.textContent.trim()===f||(!b.querySelector('.dot')&&f==='Toutes')));renderCalendar()}
 function changeMonth(delta){const idx=allMonths.indexOf(currentMonth);const ni=idx+delta;if(ni<0||ni>=allMonths.length)return;currentMonth=allMonths[ni];renderCalendar()}
 function renderCalendar(){
   if(!currentMonth)return;
@@ -672,28 +528,21 @@ function renderCalendar(){
   const idx=allMonths.indexOf(currentMonth);
   document.getElementById('calPrev').disabled=(idx<=0);
   document.getElementById('calNext').disabled=(idx>=allMonths.length-1);
-  const types=calFilter==='Toutes'?Object.keys(byCamp):[calFilter];
-  const showLeads=types.includes('LeadGen');
-  const cols=['Impressions','Clics','Depenses','Reactions'];
-  if(showLeads)cols.push('Leads');
-  document.querySelector('#calTable thead').innerHTML='<tr><th>Jour</th>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
+  document.querySelector('#calTable thead').innerHTML='<tr><th>Jour</th><th>Impressions</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Depenses</th></tr>';
   const tbody=document.querySelector('#calTable tbody');tbody.innerHTML='';
-  const totals={imp:0,clk:0,cost:0,react:0,leads:0};
+  const totals={imp:0,clk:0,cost:0};
   for(let day=1;day<=daysInMonth;day++){
     const ds=y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-    const dd=byDate[ds];let imp=0,clk=0,cost=0,react=0,leads=0;
-    if(dd)types.forEach(t=>{if(dd[t]){imp+=dd[t].impressions;clk+=dd[t].clicks;cost+=dd[t].cost;react+=dd[t].reactions;leads+=dd[t].leads}});
+    const dd=gadsByDate[ds];
+    const imp=dd?dd.impressions:0,clk=dd?dd.clicks:0,cost=dd?dd.cost:0;
     const has=imp>0||clk>0||cost>0;
-    if(has){totals.imp+=imp;totals.clk+=clk;totals.cost+=cost;totals.react+=react;totals.leads+=leads}
+    if(has){totals.imp+=imp;totals.clk+=clk;totals.cost+=cost}
     const dl=String(day).padStart(2,'0')+' '+MONTHS_FR[m-1].substring(0,3);
-    let tds='<td>'+dl+'</td><td>'+(has?fmt(imp):'-')+'</td><td>'+(has?fmt(clk):'-')+'</td><td class="cost">'+(has?fmtE(cost):'-')+'</td><td>'+(has?fmt(react):'-')+'</td>';
-    if(showLeads)tds+='<td class="leads">'+(has&&leads?fmt(leads):'-')+'</td>';
-    tbody.innerHTML+='<tr'+(has?'':' style="opacity:.4"')+'>'+tds+'</tr>';
+    const ctr=imp?fmtPct(clk/imp*100):'--';const cpc=clk?fmtE(cost/clk):'--';
+    tbody.innerHTML+='<tr'+(has?'':' style="opacity:.4"')+'><td>'+dl+'</td><td>'+(has?fmt(imp):'-')+'</td><td>'+(has?fmt(clk):'-')+'</td><td>'+(has?ctr:'-')+'</td><td>'+(has?cpc:'-')+'</td><td class="cost">'+(has?fmtE(cost):'-')+'</td></tr>';
   }
-  const tfoot=document.querySelector('#calTable tfoot');
-  let ftds='<td>Total '+monthName+'</td><td>'+fmt(totals.imp)+'</td><td>'+fmt(totals.clk)+'</td><td class="cost">'+fmtE(totals.cost)+'</td><td>'+fmt(totals.react)+'</td>';
-  if(showLeads)ftds+='<td class="leads">'+fmt(totals.leads)+'</td>';
-  tfoot.innerHTML='<tr>'+ftds+'</tr>';
+  const tCtr=totals.imp?fmtPct(totals.clk/totals.imp*100):'--';const tCpc=totals.clk?fmtE(totals.cost/totals.clk):'--';
+  document.querySelector('#calTable tfoot').innerHTML='<tr><td>Total '+monthName+'</td><td>'+fmt(totals.imp)+'</td><td>'+fmt(totals.clk)+'</td><td>'+tCtr+'</td><td>'+tCpc+'</td><td class="cost">'+fmtE(totals.cost)+'</td></tr>';
 }
 
 /* ══ DATE PICKER ══ */
@@ -768,8 +617,7 @@ function dpDayClick(year,month,day){
 }
 function dpApply(){
   document.getElementById('dpLabel').textContent=getDpLabel();
-  processData(filterByRange(allRowsRaw));
-  if(gadsRowsRaw.length)processGadsData(filterGadsByRange(gadsRowsRaw));
+  processData(filterByRange(gadsRowsRaw));
   renderAll();
   closeDatePicker();
 }
@@ -818,63 +666,6 @@ function renderDPMonth(year,month){
     html+='<div class="'+cls+'" onclick="dpDayClick('+year+','+month+','+d+')">'+d+'</div>';
   }
   html+='</div></div>';return html;
-}
-
-/* ── GOOGLE ADS ── */
-function filterGadsByRange(rows){const r=getDpRange();return rows.filter(x=>{const d=x['Date'];return d>=r.start&&d<=r.end})}
-function processGadsData(rows){
-  gadsRows=rows;gadsByDate={};
-  rows.forEach(r=>{
-    const date=r['Date'];
-    if(!gadsByDate[date])gadsByDate[date]={impressions:0,clicks:0,cost:0};
-    const d=gadsByDate[date];d.impressions+=pN(r['Impressions']);d.clicks+=pN(r['Clicks']);d.cost+=pN(r['Cost (EUR)']);
-  });
-}
-function renderGadsOverviewKPIs(){
-  const el=document.getElementById('gadsOverviewKpis');if(!el)return;
-  let imp=0,clk=0,cost=0;
-  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
-  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
-  el.innerHTML=
-    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div><div class="kpi-sub">Google Search</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div><div class="kpi-sub">CTR: '+fmtPct(ctr)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div><div class="kpi-sub">CPC moy: '+(clk?fmtE(cpc):'--')+'</div></div>';
-}
-function renderGadsOverviewCharts(){
-  const dates=Object.keys(gadsByDate).sort();
-  const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
-  makeChart('chartGadsOverClk','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
-  makeChart('chartGadsOverImp','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
-}
-function renderGadsPage(){
-  const el=document.getElementById('gadsKpis');if(!el)return;
-  let imp=0,clk=0,cost=0;
-  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
-  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
-  el.innerHTML=
-    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CPC moyen</span><div class="kpi-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-value">'+(clk?fmtE(cpc):'--')+'</div></div>'
-    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CTR</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div></div><div class="kpi-value">'+fmtPct(ctr)+'</div></div>';
-  const dates=Object.keys(gadsByDate).sort();
-  const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
-  makeChart('chartGadsImp','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
-  makeChart('chartGadsClk','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
-  makeChart('chartGadsCost','line',labels,[{label:'Depenses (EUR)',data:dates.map(d=>gadsByDate[d].cost),borderColor:'#ea4335',backgroundColor:'rgba(234,67,53,0.08)',fill:true,tension:.3,pointRadius:2}]);
-  const thead=document.querySelector('#gadsTable thead');
-  thead.innerHTML='<tr><th>Date</th><th>Impressions</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Depenses</th></tr>';
-  const tbody=document.querySelector('#gadsTable tbody');tbody.innerHTML='';
-  let tI=0,tC=0,tCo=0;
-  const sorted=[...gadsRows].sort((a,b)=>(a['Date']||'').localeCompare(b['Date']||''));
-  sorted.forEach(r=>{
-    const i=pN(r['Impressions']),c=pN(r['Clicks']),co=pN(r['Cost (EUR)']);
-    tI+=i;tC+=c;tCo+=co;
-    const ctr2=i?fmtPct(c/i*100):'--';const cpc2=c?fmtE(co/c):'--';
-    tbody.innerHTML+='<tr><td>'+r['Date']+'</td><td>'+fmt(i)+'</td><td>'+fmt(c)+'</td><td>'+ctr2+'</td><td>'+cpc2+'</td><td class="cost">'+fmtE(co)+'</td></tr>';
-  });
-  const tCtr=tI?fmtPct(tC/tI*100):'--';const tCpc=tC?fmtE(tCo/tC):'--';
-  document.querySelector('#gadsTable tfoot').innerHTML='<tr><td>Total ('+sorted.length+' jours)</td><td>'+fmt(tI)+'</td><td>'+fmt(tC)+'</td><td>'+tCtr+'</td><td>'+tCpc+'</td><td class="cost">'+fmtE(tCo)+'</td></tr>';
 }
 
 /* ── NAVIGATION ── */

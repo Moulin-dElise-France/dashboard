@@ -12,7 +12,7 @@
   --gold:#BF8D50;--gold-light:#d4a96a;--gold-dark:#a07640;--gold-bg:rgba(191,141,80,0.08);--gold-bg2:rgba(191,141,80,0.15);
   --gradient-gold:linear-gradient(135deg,#BF8D50 0%,#d4a96a 100%);
   --wheat:#e8d5b7;--cream:#f5ead6;
-  --trafic:#3498db;--engagement:#e67e22;--notoriete:#9b59b6;--recrutement:#27ae60;--leadgen:#c0392b;
+  --trafic:#3498db;--engagement:#e67e22;--notoriete:#9b59b6;--recrutement:#27ae60;--leadgen:#c0392b;--googleads:#34a853;
   --text-primary:#1a1a1a;--text-secondary:#5a5a5a;--text-tertiary:#8a8a8a;
   --bg:#faf7f2;--bg-card:#ffffff;--bg-dp:#fff;
   --border:rgba(0,0,0,0.06);--border-strong:rgba(0,0,0,0.1);
@@ -251,6 +251,10 @@ td.leads{color:var(--gold);font-weight:700}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         Meta Ads
       </button>
+      <button class="nav-item" data-page="googleads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Google Ads
+      </button>
     </div>
     <div class="nav-section">
       <div class="nav-section-title">Donnees</div>
@@ -331,6 +335,8 @@ td.leads{color:var(--gold);font-weight:700}
 
     <!-- PAGE: VUE D'ENSEMBLE -->
     <div class="page-view active" id="page-overview">
+      <h3 class="sec-title"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#BF8D50" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Meta Ads</h3>
+      <p class="sec-sub">Campagnes Meta — Saint-Brieuc</p>
       <div class="kpi-grid" id="overviewKpis"></div>
       <div class="charts-grid">
         <div class="chart-box"><div class="chart-box-title">Impressions par jour</div><div class="chart-container"><canvas id="chartImpDay"></canvas></div></div>
@@ -339,6 +345,13 @@ td.leads{color:var(--gold);font-weight:700}
         <div class="chart-box"><div class="chart-box-title">Leads par jour</div><div class="chart-container"><canvas id="chartLeadsDay"></canvas></div></div>
       </div>
       <div class="chart-box" style="margin-bottom:24px"><div class="chart-box-title">Repartition des depenses par campagne</div><div class="chart-container"><canvas id="chartCostPie"></canvas></div></div>
+      <h3 class="sec-title" style="margin-top:8px"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#34a853" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Google Ads</h3>
+      <p class="sec-sub">Campagne Search Local — Saint-Brieuc</p>
+      <div class="kpi-grid" id="gadsOverviewKpis"></div>
+      <div class="charts-grid">
+        <div class="chart-box"><div class="chart-box-title">Clics Google Ads par jour</div><div class="chart-container"><canvas id="chartGadsOverClk"></canvas></div></div>
+        <div class="chart-box"><div class="chart-box-title">Impressions Google Ads par jour</div><div class="chart-container"><canvas id="chartGadsOverImp"></canvas></div></div>
+      </div>
     </div>
 
     <!-- PAGE: PERFORMANCES -->
@@ -359,6 +372,19 @@ td.leads{color:var(--gold);font-weight:700}
         <div class="chart-box"><div class="chart-box-title">Clics (filtre)</div><div class="chart-container"><canvas id="chartCampClk"></canvas></div></div>
       </div>
       <table class="data-table" id="campTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+    </div>
+
+    <!-- PAGE: GOOGLE ADS -->
+    <div class="page-view" id="page-googleads">
+      <h3 class="sec-title">Google Ads — Search Local Saint-Brieuc</h3>
+      <p class="sec-sub">Detail quotidien de la campagne de recherche locale</p>
+      <div class="kpi-grid" id="gadsKpis"></div>
+      <div class="charts-grid">
+        <div class="chart-box"><div class="chart-box-title">Impressions par jour</div><div class="chart-container"><canvas id="chartGadsImp"></canvas></div></div>
+        <div class="chart-box"><div class="chart-box-title">Clics par jour</div><div class="chart-container"><canvas id="chartGadsClk"></canvas></div></div>
+      </div>
+      <div class="chart-box" style="margin-bottom:24px"><div class="chart-box-title">Depenses par jour</div><div class="chart-container"><canvas id="chartGadsCost"></canvas></div></div>
+      <table class="data-table" id="gadsTable"><thead></thead><tbody></tbody><tfoot></tfoot></table>
     </div>
 
     <!-- PAGE: CALENDAR -->
@@ -383,10 +409,19 @@ td.leads{color:var(--gold);font-weight:700}
       <div class="conn-card">
         <div class="conn-title">Google Sheets — Supermetrics</div>
         <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">SAINT-BRIEUC</span></div>
-        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">0</span></div>
+        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">1380587692</span></div>
         <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok" id="connStatus">Connecte</span></div>
         <div class="conn-row"><span class="conn-label">Derniere donnee</span><span class="conn-val" id="connLastDate">--</span></div>
         <div class="conn-row"><span class="conn-label">Lignes chargees</span><span class="conn-val" id="connRows">--</span></div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-title">Google Ads — Supermetrics</div>
+        <div class="conn-row"><span class="conn-label">Onglet</span><span class="conn-val">GOOGLE ADS</span></div>
+        <div class="conn-row"><span class="conn-label">GID</span><span class="conn-val">2003247368</span></div>
+        <div class="conn-row"><span class="conn-label">Campagne</span><span class="conn-val">Search Local Saint-Brieuc</span></div>
+        <div class="conn-row"><span class="conn-label">Statut</span><span class="conn-status ok" id="connGadsStatus">Connecte</span></div>
+        <div class="conn-row"><span class="conn-label">Derniere donnee</span><span class="conn-val" id="connGadsLastDate">--</span></div>
+        <div class="conn-row"><span class="conn-label">Lignes chargees</span><span class="conn-val" id="connGadsRows">--</span></div>
       </div>
       <div class="conn-card">
         <div class="conn-title">Informations client</div>
@@ -420,8 +455,11 @@ const TYPE_DETECT=[
   {type:'Notoriete',cls:'notoriete',color:'#9b59b6',match:['notori']},
   {type:'Recrutement',cls:'recrutement',color:'#27ae60',match:['recrutement']}
 ];
+const GADS_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=2003247368';
+const GADS_CITY='saint-brieuc';
 const charts={};
 let allRowsRaw=[],allRows=[],byDate={},byCamp={},allMonths=[],currentMonth='',calFilter='Toutes',campFilter='Toutes';
+let gadsRowsRaw=[],gadsRows=[],gadsByDate={};
 
 /* ══ DATE PICKER STATE ══ */
 let dpYear='2026',dpMode='annual',dpStart={month:0,day:0},dpEnd={month:11,day:30};
@@ -480,9 +518,25 @@ async function loadData(){
     const banner=document.getElementById('statusBanner');
     banner.style.display='flex';banner.className='status-banner ok';
     const dates=allRowsRaw.map(r=>r['Date']).sort();
-    document.getElementById('statusText').textContent=rows.length+' lignes chargees \u00b7 Derniere donnee: '+dates[dates.length-1];
+    document.getElementById('statusText').textContent=rows.length+' lignes Meta chargees \u00b7 Derniere donnee: '+dates[dates.length-1];
     document.getElementById('connLastDate').textContent=dates[dates.length-1];
     document.getElementById('connRows').textContent=rows.length;
+    try{
+      const gResp=await fetch(GADS_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
+      if(gResp.ok){
+        const gText=await gResp.text();
+        const gAll=parseCSV(gText);
+        const gRows=gAll.filter(r=>(r['Campaign name']||'').toLowerCase().includes(GADS_CITY));
+        gadsRowsRaw=gRows;
+        processGadsData(filterGadsByRange(gRows));
+        const gDates=gRows.map(r=>r['Date']).sort();
+        if(gDates.length){
+          document.getElementById('connGadsLastDate').textContent=gDates[gDates.length-1];
+          document.getElementById('connGadsRows').textContent=gRows.length;
+          document.getElementById('statusText').textContent+=' + '+gRows.length+' lignes Google Ads';
+        }
+      }
+    }catch(ge){console.warn('Google Ads:',ge)}
     renderAll();
   }catch(e){
     console.error(e);
@@ -494,6 +548,7 @@ async function loadData(){
 
 function renderAll(){
   renderOverviewKPIs();renderOverviewCharts();renderPerformanceTable();renderCampaignPage();renderCalendarFilters();renderCalendar();
+  renderGadsOverviewKPIs();renderGadsOverviewCharts();renderGadsPage();
 }
 
 /* ── OVERVIEW KPIs ── */
@@ -714,6 +769,7 @@ function dpDayClick(year,month,day){
 function dpApply(){
   document.getElementById('dpLabel').textContent=getDpLabel();
   processData(filterByRange(allRowsRaw));
+  if(gadsRowsRaw.length)processGadsData(filterGadsByRange(gadsRowsRaw));
   renderAll();
   closeDatePicker();
 }
@@ -762,6 +818,63 @@ function renderDPMonth(year,month){
     html+='<div class="'+cls+'" onclick="dpDayClick('+year+','+month+','+d+')">'+d+'</div>';
   }
   html+='</div></div>';return html;
+}
+
+/* ── GOOGLE ADS ── */
+function filterGadsByRange(rows){const r=getDpRange();return rows.filter(x=>{const d=x['Date'];return d>=r.start&&d<=r.end})}
+function processGadsData(rows){
+  gadsRows=rows;gadsByDate={};
+  rows.forEach(r=>{
+    const date=r['Date'];
+    if(!gadsByDate[date])gadsByDate[date]={impressions:0,clicks:0,cost:0};
+    const d=gadsByDate[date];d.impressions+=pN(r['Impressions']);d.clicks+=pN(r['Clicks']);d.cost+=pN(r['Cost (EUR)']);
+  });
+}
+function renderGadsOverviewKPIs(){
+  const el=document.getElementById('gadsOverviewKpis');if(!el)return;
+  let imp=0,clk=0,cost=0;
+  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
+  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
+  el.innerHTML=
+    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div><div class="kpi-sub">Google Search</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div><div class="kpi-sub">CTR: '+fmtPct(ctr)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div><div class="kpi-sub">CPC moy: '+(clk?fmtE(cpc):'--')+'</div></div>';
+}
+function renderGadsOverviewCharts(){
+  const dates=Object.keys(gadsByDate).sort();
+  const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
+  makeChart('chartGadsOverClk','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
+  makeChart('chartGadsOverImp','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
+}
+function renderGadsPage(){
+  const el=document.getElementById('gadsKpis');if(!el)return;
+  let imp=0,clk=0,cost=0;
+  gadsRows.forEach(r=>{imp+=pN(r['Impressions']);clk+=pN(r['Clicks']);cost+=pN(r['Cost (EUR)'])});
+  const ctr=imp?clk/imp*100:0;const cpc=clk?cost/clk:0;
+  el.innerHTML=
+    '<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Impressions</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div><div class="kpi-value">'+fmt(imp)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Clics</span><div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div><div class="kpi-value">'+fmt(clk)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">Depenses</span><div class="kpi-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div></div><div class="kpi-value">'+fmtE(cost)+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CPC moyen</span><div class="kpi-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div><div class="kpi-value">'+(clk?fmtE(cpc):'--')+'</div></div>'
+    +'<div class="kpi-card"><div class="kpi-header"><span class="kpi-label">CTR</span><div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div></div><div class="kpi-value">'+fmtPct(ctr)+'</div></div>';
+  const dates=Object.keys(gadsByDate).sort();
+  const labels=dates.map(d=>{const p=d.split('-');return p[2]+'/'+p[1]});
+  makeChart('chartGadsImp','bar',labels,[{label:'Impressions',data:dates.map(d=>gadsByDate[d].impressions),backgroundColor:'rgba(52,168,83,0.5)',borderColor:'#34a853',borderWidth:1,borderRadius:3}]);
+  makeChart('chartGadsClk','bar',labels,[{label:'Clics',data:dates.map(d=>gadsByDate[d].clicks),backgroundColor:'rgba(66,133,244,0.5)',borderColor:'#4285f4',borderWidth:1,borderRadius:3}]);
+  makeChart('chartGadsCost','line',labels,[{label:'Depenses (EUR)',data:dates.map(d=>gadsByDate[d].cost),borderColor:'#ea4335',backgroundColor:'rgba(234,67,53,0.08)',fill:true,tension:.3,pointRadius:2}]);
+  const thead=document.querySelector('#gadsTable thead');
+  thead.innerHTML='<tr><th>Date</th><th>Impressions</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Depenses</th></tr>';
+  const tbody=document.querySelector('#gadsTable tbody');tbody.innerHTML='';
+  let tI=0,tC=0,tCo=0;
+  const sorted=[...gadsRows].sort((a,b)=>(a['Date']||'').localeCompare(b['Date']||''));
+  sorted.forEach(r=>{
+    const i=pN(r['Impressions']),c=pN(r['Clicks']),co=pN(r['Cost (EUR)']);
+    tI+=i;tC+=c;tCo+=co;
+    const ctr2=i?fmtPct(c/i*100):'--';const cpc2=c?fmtE(co/c):'--';
+    tbody.innerHTML+='<tr><td>'+r['Date']+'</td><td>'+fmt(i)+'</td><td>'+fmt(c)+'</td><td>'+ctr2+'</td><td>'+cpc2+'</td><td class="cost">'+fmtE(co)+'</td></tr>';
+  });
+  const tCtr=tI?fmtPct(tC/tI*100):'--';const tCpc=tC?fmtE(tCo/tC):'--';
+  document.querySelector('#gadsTable tfoot').innerHTML='<tr><td>Total ('+sorted.length+' jours)</td><td>'+fmt(tI)+'</td><td>'+fmt(tC)+'</td><td>'+tCtr+'</td><td>'+tCpc+'</td><td class="cost">'+fmtE(tCo)+'</td></tr>';
 }
 
 /* ── NAVIGATION ── */

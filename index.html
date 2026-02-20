@@ -163,6 +163,7 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 .camp-tag.notoriete{background:rgba(155,89,182,0.12);border:1px solid rgba(155,89,182,0.18);color:#bb8fce}
 .camp-tag.recrutement{background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.18);color:#58d68d}
 .camp-tag.leadgen{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.18);color:#ec7063}
+.camp-tag.googleads{background:rgba(52,168,83,0.12);border:1px solid rgba(52,168,83,0.18);color:#34a853}
 
 /* ══ KPI ROW IN CARD ══ */
 .camp-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;position:relative;z-index:1}
@@ -304,7 +305,7 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
   <div class="hero-glow"></div>
   <img class="hero-logo" src="https://moulindelise.com/wp-content/uploads/logo-moulin-elise-01.svg" alt="Le Moulin d'Elise">
   <h1><span>La boulangerie au naturel</span></h1>
-  <p class="hero-desc">Suivi en temps reel de vos campagnes marketing Meta Ads — performances, leads et investissements par boutique.</p>
+  <p class="hero-desc">Suivi en temps reel de vos campagnes marketing Meta Ads et Google Ads — performances, leads et investissements par boutique.</p>
   <div class="stats-bar" id="statsBar">
     <div class="stat-item"><div class="stat-value" id="statImp">--</div><div class="stat-label">Impressions</div></div>
     <div class="stat-item"><div class="stat-value" id="statClk">--</div><div class="stat-label">Clics</div></div>
@@ -342,10 +343,12 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 
 const BASE_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=';
 const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692'};
+const GADS_GID='2003247368';
 const ENTITIES=[
   {key:'national',label:'National',location:'France entiere \u00b7 Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
-  {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) \u00b7 4 campagnes actives',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
-  {key:'saintbrieuc',label:'Saint-Brieuc',location:"Cotes-d'Armor (22) \u00b7 4 campagnes actives",icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'}
+  {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) \u00b7 Meta Ads + Google Ads',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
+  {key:'saintbrieuc',label:'Saint-Brieuc',location:"Cotes-d'Armor (22) \u00b7 Meta Ads + Google Ads",icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'},
+  {key:'langueux',label:'Langueux',location:"Cotes-d'Armor (22) \u00b7 Google Ads uniquement",icon:'store',dashboard:'dashboard-moulin-langueux.html',highlight:'clicks',highlightLabel:'Clics',googleAdsOnly:true}
 ];
 const CAMPAIGN_DETECT=[
   {type:'LeadGen',cls:'leadgen',match:['leadgen','lead_gen','lead gen']},
@@ -420,9 +423,9 @@ function filterRows(rows){
   return rows.filter(r=>{const d=r['Date'];return d>=range.start&&d<=range.end});
 }
 
-function computeTotals(rows){
+function computeTotals(rows,isGads){
   let imp=0,clk=0,cost=0,leads=0,react=0;
-  rows.forEach(r=>{imp+=parseFR(r['Impressions']);clk+=parseFR(r['Clicks (all)']);cost+=parseFR(r['Cost (EUR)']);leads+=parseFR(r['On-Facebook leads']);react+=parseFR(r['Post reactions'])});
+  rows.forEach(r=>{imp+=parseFR(r['Impressions']);clk+=parseFR(r[isGads?'Clicks':'Clicks (all)']);cost+=parseFR(r['Cost (EUR)']);if(!isGads){leads+=parseFR(r['On-Facebook leads']);react+=parseFR(r['Post reactions'])}});
   return{impressions:imp,clicks:clk,cost,leads,reactions:react};
 }
 
@@ -441,6 +444,15 @@ async function loadData(){
       DATA[key]={rows,types:detectTypes(rows)};
     });
     await Promise.all(fetches);
+    try{
+      const gResp=await fetch(BASE_URL+GADS_GID+'&_t='+t,{redirect:'follow',credentials:'omit'});
+      if(gResp.ok){
+        const gText=await gResp.text();
+        const gRows=parseCSV(gText);
+        const langueuxRows=gRows.filter(r=>(r['Campaign name']||'').toLowerCase().includes('langueux'));
+        DATA.langueux={rows:langueuxRows,types:['Google Ads'],googleAdsOnly:true};
+      }
+    }catch(ge){console.warn('Google Ads:',ge)}
     document.getElementById('loadingState').style.display='none';
     renderAll();
   }catch(e){
@@ -457,8 +469,9 @@ function renderAll(){
 
 function renderStats(){
   let totImp=0,totClk=0,totDep=0,totLeads=0;
-  Object.values(DATA).forEach(d=>{
-    const t=computeTotals(filterRows(d.rows));
+  ENTITIES.forEach(ent=>{
+    const d=DATA[ent.key];if(!d)return;
+    const t=computeTotals(filterRows(d.rows),!!ent.googleAdsOnly);
     totImp+=t.impressions;totClk+=t.clicks;totDep+=t.cost;totLeads+=t.leads;
   });
   document.getElementById('statImp').textContent=fmt(totImp);
@@ -473,9 +486,9 @@ function renderCards(){
   grid.innerHTML='';
 
   ENTITIES.forEach(ent=>{
-    const d=DATA[ent.key];
+    const d=DATA[ent.key];if(!d)return;
     const filtered=filterRows(d.rows);
-    const t=computeTotals(filtered);
+    const t=computeTotals(filtered,!!ent.googleAdsOnly);
     const types=d.types;
 
     let hlVal,hlLabel;
@@ -483,6 +496,7 @@ function renderCards(){
     else{hlVal=fmt(t.clicks);hlLabel='Clics'}
 
     const tags=types.map(type=>{
+      if(type==='Google Ads')return'<span class="camp-tag googleads">Google Ads</span>';
       const det=CAMPAIGN_DETECT.find(c=>c.type===type);
       return det?'<span class="camp-tag '+det.cls+'">'+det.type+'</span>':'';
     }).join('');
