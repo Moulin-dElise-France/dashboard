@@ -218,6 +218,20 @@ td.leads{color:var(--gold);font-weight:700}
 .conn-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}
 .conn-status.ok{background:rgba(39,174,96,0.1);color:#27ae60}
 
+/* ══ SOCIAL INSIGHTS ══ */
+.insights-section{margin-top:28px;padding:20px;border-radius:var(--radius-lg);background:linear-gradient(135deg,rgba(99,102,241,0.04) 0%,rgba(168,85,247,0.04) 100%);border:1.5px solid rgba(99,102,241,0.12);position:relative}
+.insights-title{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:12px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:1px}
+.insights-title svg{width:18px;height:18px;color:#7c3aed}
+.insights-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.insight-card{background:#fff;border:1px solid rgba(99,102,241,0.1);border-radius:var(--radius-md);padding:18px 14px;text-align:center;transition:all .3s}
+.insight-card:hover{border-color:#7c3aed;box-shadow:0 4px 16px rgba(124,58,237,0.12);transform:translateY(-2px)}
+.insight-icon{width:28px;height:28px;margin:0 auto 8px;color:#7c3aed;opacity:.7}
+.insight-val{font-size:22px;font-weight:800;letter-spacing:-.5px;color:#4c1d95}
+.insight-val.delta::before{content:'+';color:#059669;font-weight:700}
+.insight-val.delta.neg::before{content:'';color:#dc2626}
+.insight-label{font-size:10px;font-weight:600;color:#6d28d9;text-transform:uppercase;letter-spacing:.8px;margin-top:4px}
+.insight-sub{font-size:10px;color:var(--text-tertiary);margin-top:2px;font-weight:500}
+
 /* ══ MOBILE ══ */
 .mobile-toggle{display:none;position:fixed;bottom:20px;right:20px;z-index:200;width:48px;height:48px;border-radius:50%;background:var(--gold);color:#fff;border:none;box-shadow:var(--shadow-md);cursor:pointer;align-items:center;justify-content:center}
 .mobile-toggle svg{width:22px;height:22px}
@@ -232,6 +246,7 @@ td.leads{color:var(--gold);font-weight:700}
   .topbar{padding:12px 16px;flex-wrap:wrap;gap:8px}
   .content{padding:16px}
   .kpi-grid{grid-template-columns:1fr 1fr}
+  .insights-grid{grid-template-columns:1fr 1fr}
   .charts-grid{grid-template-columns:1fr}
   .chart-container{height:220px}
   .cal-dropdown{top:auto;right:8px;left:8px;flex-direction:column;max-height:90vh;overflow-y:auto}
@@ -242,6 +257,7 @@ td.leads{color:var(--gold);font-weight:700}
 @media(max-width:480px){
   .kpi-grid{grid-template-columns:1fr}
   .kpi-value{font-size:22px}
+  .insights-grid{grid-template-columns:1fr 1fr}.insight-val{font-size:18px}.insight-label{font-size:9px}
 }
 </style>
 </head>
@@ -367,6 +383,7 @@ td.leads{color:var(--gold);font-weight:700}
       <h3 class="sec-title"><svg style="display:inline;vertical-align:middle;width:20px;height:20px;margin-right:6px" viewBox="0 0 24 24" fill="none" stroke="#BF8D50" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Meta Ads</h3>
       <p class="sec-sub">Campagnes Meta — Saint-Brieuc</p>
       <div class="kpi-grid" id="overviewKpis"></div>
+      <div class="insights-section" id="socialInsightsSection" style="display:none"><div class="insights-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>FB & Instagram Insights</div><div class="insights-grid" id="socialInsightsGrid"></div></div>
       <div class="charts-grid">
         <div class="chart-box"><div class="chart-box-title">Impressions par jour</div><div class="chart-container"><canvas id="chartImpDay"></canvas></div></div>
         <div class="chart-box"><div class="chart-box-title">Clics par jour</div><div class="chart-container"><canvas id="chartClkDay"></canvas></div></div>
@@ -503,6 +520,8 @@ td.leads{color:var(--gold);font-weight:700}
    ══════════════════════════════════════════════ */
 Chart.defaults.font.family="'Plus Jakarta Sans','Inter',sans-serif";
 const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=1380587692';
+const INSIGHTS_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=1101235754';
+let insightsData=null;
 const MONTHS_FR=['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
 const MONTH_SHORT=['Jan','Fev','Mar','Avr','Mai','Jun','Jul','Aou','Sep','Oct','Nov','Dec'];
 const WEEKDAYS=['L','M','M','J','V','S','D'];
@@ -538,6 +557,30 @@ function detectType(name){const n=name.toLowerCase();for(const d of TYPE_DETECT)
 function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
 function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
 function fmtPct(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' %'}
+
+/* ── INSIGHTS PARSING ── */
+function parseInsightsCSV(text){
+  const lines=text.trim().split('\n');if(lines.length<2)return{rows:[],igFollowers:0};
+  const rows=[];let igFollowers=0;
+  for(let i=1;i<lines.length;i++){
+    const vals=parseLine(lines[i]);const date=vals[0]||'';
+    if(date&&date.match(/^\d{4}-\d{2}-\d{2}$/)){
+      rows.push({date:date,reactions:pN(vals[1]),pageFollowers:pN(vals[2]),pageVisits:pN(vals[3])});
+    }
+    const igVal=pN(vals[8]||vals[7]||'');
+    if(igVal>0&&igFollowers===0)igFollowers=igVal;
+  }
+  return{rows,igFollowers};
+}
+function computeInsights(data){
+  const range=getDpRange();
+  const filtered=data.rows.filter(r=>r.date>=range.start&&r.date<=range.end);
+  if(filtered.length===0)return{pageVisits:0,fbDelta:0,fbTotal:0,reactions:0,igFollowers:data.igFollowers};
+  let pageVisits=0,reactions=0;
+  filtered.forEach(r=>{pageVisits+=r.pageVisits;reactions+=r.reactions});
+  const fbFirst=filtered[0].pageFollowers;const fbLast=filtered[filtered.length-1].pageFollowers;
+  return{pageVisits,fbDelta:fbLast-fbFirst,fbTotal:fbLast,reactions,igFollowers:data.igFollowers};
+}
 
 /* ── DATE RANGE ── */
 function getDpRange(){
@@ -614,6 +657,14 @@ async function loadData(){
         const el=document.getElementById('connCreaRows');if(el)el.textContent=creaCount+' creatives uniques';
       }
     }catch(ce){console.warn('Creatives:',ce)}
+    /* ── INSIGHTS (FB & Instagram) ── */
+    try{
+      const iResp=await fetch(INSIGHTS_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
+      if(iResp.ok){
+        const iText=await iResp.text();
+        if(iText&&iText.length>10){insightsData=parseInsightsCSV(iText);document.getElementById('statusText').textContent+=' + Insights FB&IG'}
+      }
+    }catch(ie){console.warn('Insights:',ie)}
     renderAll();
   }catch(e){
     console.error(e);
@@ -626,7 +677,23 @@ async function loadData(){
 function renderAll(){
   renderOverviewKPIs();renderOverviewCharts();renderPerformanceTable();renderCampaignPage();renderCalendarFilters();renderCalendar();
   renderGadsOverviewKPIs();renderGadsOverviewCharts();renderGadsPage();
-  renderCreativesPage();
+  renderCreativesPage();renderSocialInsights();
+}
+
+/* ── SOCIAL INSIGHTS RENDER ── */
+function renderSocialInsights(){
+  try{
+  const section=document.getElementById('socialInsightsSection');
+  if(!insightsData||!section){console.log('Insights: no data or no section',!!insightsData,!!section);return}
+  const ins=computeInsights(insightsData);
+  section.style.display='block';
+  const deltaClass=ins.fbDelta>=0?'delta':'delta neg';
+  document.getElementById('socialInsightsGrid').innerHTML=
+    '<div class="insight-card"><svg class="insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><div class="insight-val">'+fmt(ins.pageVisits)+'</div><div class="insight-label">Visites page</div></div>'
+    +'<div class="insight-card"><svg class="insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><div class="insight-val '+deltaClass+'">'+fmt(Math.abs(ins.fbDelta))+'</div><div class="insight-label">Abonnes FB</div><div class="insight-sub">Total: '+fmt(ins.fbTotal)+'</div></div>'
+    +'<div class="insight-card"><svg class="insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><div class="insight-val">'+fmt(ins.reactions)+'</div><div class="insight-label">Reactions</div></div>'
+    +'<div class="insight-card"><svg class="insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg><div class="insight-val">'+fmt(ins.igFollowers)+'</div><div class="insight-label">Instagram</div><div class="insight-sub">Followers</div></div>';
+  }catch(err){console.warn('renderSocialInsights error:',err)}
 }
 
 /* ── OVERVIEW KPIs ── */

@@ -203,6 +203,17 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 .day-table td.val-cost{color:#e74c3c}
 .day-table td.val-leads{color:var(--gold-light);font-weight:700}
 
+/* ══ SOCIAL INSIGHTS BAND ══ */
+.camp-insights{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(191,141,80,0.12);position:relative;z-index:1}
+.camp-insights::before{content:'FB & Instagram';position:absolute;top:-8px;left:12px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);background:var(--bg-card);padding:0 8px}
+.camp-insight-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:var(--radius-sm);background:rgba(191,141,80,0.04);border:1px solid rgba(191,141,80,0.06);transition:all .3s var(--ease)}
+.camp-card:hover .camp-insight-item{background:rgba(191,141,80,0.08);border-color:rgba(191,141,80,0.12)}
+.camp-insight-icon{width:16px;height:16px;color:var(--gold);opacity:.7}
+.camp-insight-val{font-size:15px;font-weight:800;letter-spacing:-.3px;color:var(--gold-light)}
+.camp-insight-val.delta::before{content:'+';color:rgba(46,204,113,0.9)}
+.camp-insight-val.delta.neg::before{content:'';color:rgba(231,76,60,0.9)}
+.camp-insight-label{font-size:8.5px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.8px;text-align:center}
+
 /* ══ LOADING ══ */
 .loading{text-align:center;padding:60px 20px}
 .loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
@@ -239,6 +250,7 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
   .camp-icon{width:42px;height:42px;border-radius:10px}.camp-icon svg{width:20px;height:20px}
   .camp-tag{font-size:9px;padding:3px 8px}.camp-tags{gap:6px;margin-bottom:14px}
   .camp-kpis{grid-template-columns:1fr 1fr 1fr;gap:8px}.camp-kpi-val{font-size:15px}
+  .camp-insights{grid-template-columns:1fr 1fr;gap:6px}.camp-insight-val{font-size:13px}.camp-insight-label{font-size:7.5px}.camp-insights::before{font-size:7px}
   .camp-bottom{padding-top:12px}.camp-link{font-size:11px}
   .footer{padding:24px 16px;font-size:10px}
 }
@@ -344,6 +356,7 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
 const BASE_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=';
 const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692'};
 const GADS_GID='2003247368';
+const INSIGHTS_GIDS={national:'961127881',carquefou:'693836138',saintbrieuc:'1101235754'};
 const ENTITIES=[
   {key:'national',label:'National',location:'France entiere \u00b7 Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
   {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) \u00b7 Meta Ads + Google Ads',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
@@ -389,6 +402,33 @@ function parseCSV(text){
 }
 function parseLine(line){const r=[];let c='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
 function parseFR(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
+
+function parseInsightsCSV(text){
+  const lines=text.trim().split('\n');if(lines.length<2)return{rows:[],igFollowers:0};
+  const rows=[];let igFollowers=0;
+  for(let i=1;i<lines.length;i++){
+    const vals=parseLine(lines[i]);
+    const date=vals[0]||'';
+    if(date&&date.match(/^\d{4}-\d{2}-\d{2}$/)){
+      rows.push({date:date,reactions:parseFR(vals[1]),pageFollowers:parseFR(vals[2]),pageVisits:parseFR(vals[3])});
+    }
+    const igVal=parseFR(vals[8]||vals[7]||'');
+    if(igVal>0&&igFollowers===0)igFollowers=igVal;
+  }
+  return{rows,igFollowers};
+}
+
+function computeInsights(data){
+  const range=getDateRange();
+  const filtered=data.rows.filter(r=>r.date>=range.start&&r.date<=range.end);
+  if(filtered.length===0)return{pageVisits:0,fbDelta:0,fbTotal:0,reactions:0,igFollowers:data.igFollowers};
+  let pageVisits=0,reactions=0;
+  filtered.forEach(r=>{pageVisits+=r.pageVisits;reactions+=r.reactions});
+  const fbFirst=filtered[0].pageFollowers;
+  const fbLast=filtered[filtered.length-1].pageFollowers;
+  const fbDelta=fbLast-fbFirst;
+  return{pageVisits,fbDelta,fbTotal:fbLast,reactions,igFollowers:data.igFollowers};
+}
 
 function detectTypes(rows){
   const found=new Set();
@@ -453,6 +493,18 @@ async function loadData(){
         DATA.langueux={rows:langueuxRows,types:['Google Ads'],googleAdsOnly:true};
       }
     }catch(ge){console.warn('Google Ads:',ge)}
+    /* ══ INSIGHTS (FB & Instagram) ══ */
+    try{
+      const iFetches=Object.entries(INSIGHTS_GIDS).map(async([key,gid])=>{
+        const resp=await fetch(BASE_URL+gid+'&_t='+t,{redirect:'follow',credentials:'omit'});
+        if(!resp.ok)return;
+        const text=await resp.text();
+        if(!text||text.length<10)return;
+        const parsed=parseInsightsCSV(text);
+        if(DATA[key])DATA[key].insights=parsed;
+      });
+      await Promise.all(iFetches);
+    }catch(ie){console.warn('Insights:',ie)}
     document.getElementById('loadingState').style.display='none';
     renderAll();
   }catch(e){
@@ -501,6 +553,18 @@ function renderCards(){
       return det?'<span class="camp-tag '+det.cls+'">'+det.type+'</span>':'';
     }).join('');
 
+    let insightsHTML='';
+    if(d.insights){
+      const ins=computeInsights(d.insights);
+      const deltaClass=ins.fbDelta>=0?'delta':'delta neg';
+      insightsHTML='<div class="camp-insights">'
+        +'<div class="camp-insight-item"><svg class="camp-insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><div class="camp-insight-val">'+fmt(ins.pageVisits)+'</div><div class="camp-insight-label">Visites page</div></div>'
+        +'<div class="camp-insight-item"><svg class="camp-insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><div class="camp-insight-val '+deltaClass+'">'+fmt(Math.abs(ins.fbDelta))+'</div><div class="camp-insight-label">Abonnes FB</div></div>'
+        +'<div class="camp-insight-item"><svg class="camp-insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><div class="camp-insight-val">'+fmt(ins.reactions)+'</div><div class="camp-insight-label">Reactions</div></div>'
+        +'<div class="camp-insight-item"><svg class="camp-insight-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg><div class="camp-insight-val">'+fmt(ins.igFollowers)+'</div><div class="camp-insight-label">Instagram</div></div>'
+      +'</div>';
+    }
+
     grid.innerHTML+='<a class="camp-card" href="'+ent.dashboard+'">'
       +'<div class="camp-top"><div class="camp-icon">'+ICONS[ent.icon]+'</div><div class="camp-status"><div class="pulse"></div>Actif</div></div>'
       +'<div class="camp-name">'+ent.label+'</div>'
@@ -511,6 +575,7 @@ function renderCards(){
         +'<div class="camp-kpi"><div class="camp-kpi-val">'+fmt(t.impressions)+'</div><div class="camp-kpi-label">Impressions</div></div>'
         +'<div class="camp-kpi"><div class="camp-kpi-val">'+fmtE(t.cost)+'</div><div class="camp-kpi-label">Depenses</div></div>'
       +'</div>'
+      +insightsHTML
       +'<div class="camp-bottom"><span class="camp-link">Voir le dashboard complet</span><div class="camp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div></div>'
     +'</a>';
   });
