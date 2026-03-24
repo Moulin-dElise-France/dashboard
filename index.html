@@ -354,13 +354,14 @@ body{font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;background
    ══════════════════════════════════════════════ */
 
 const BASE_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQZZqBeck80LcNEZUPOx-EjBHY_xnR1yGINcHIllM-P7lBh_rT1zdZTLxp6nyOE06ppyCagPog6Dxx1/pub?output=csv&single=true&gid=';
-const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692'};
+const GIDS={national:'0',carquefou:'699035284',saintbrieuc:'1380587692',paimpol:'805515773'};
 const GADS_GID='2003247368';
-const INSIGHTS_GIDS={national:'961127881',carquefou:'693836138',saintbrieuc:'1101235754'};
+const INSIGHTS_GIDS={national:'961127881',carquefou:'693836138',saintbrieuc:'1101235754',paimpol:'1999060150'};
 const ENTITIES=[
   {key:'national',label:'National',location:'France entiere \u00b7 Campagnes BtoC + Recrutement + Lead Gen',icon:'globe',dashboard:'dashboard-moulin-national.html',highlight:'leads',highlightLabel:'Leads'},
   {key:'carquefou',label:'Carquefou',location:'Loire-Atlantique (44) \u00b7 Meta Ads + Google Ads',icon:'store',dashboard:'dashboard-moulin-carquefou.html',highlight:'clicks',highlightLabel:'Clics'},
   {key:'saintbrieuc',label:'Saint-Brieuc',location:"Cotes-d'Armor (22) \u00b7 Meta Ads + Google Ads",icon:'store',dashboard:'dashboard-moulin-saintbrieuc.html',highlight:'clicks',highlightLabel:'Clics'},
+  {key:'paimpol',label:'Paimpol',location:"Cotes-d'Armor (22) \u00b7 Meta Ads",icon:'store',dashboard:'dashboard-moulin-paimpol.html',highlight:'leads',highlightLabel:'Leads'},
   {key:'langueux',label:'Langueux',location:"Cotes-d'Armor (22) \u00b7 Google Ads uniquement",icon:'store',dashboard:'dashboard-moulin-langueux.html',highlight:'clicks',highlightLabel:'Clics',googleAdsOnly:true}
 ];
 const CAMPAIGN_DETECT=[
