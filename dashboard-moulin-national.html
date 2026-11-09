@@ -517,6 +517,49 @@ function parseCSV(text){
 }
 function parseLine(l){const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c);c=''}else c+=ch}r.push(c);return r}
 function pN(v){if(!v||v==='')return 0;return parseFloat(String(v).replace(/"/g,'').replace(',','.').replace(/\s/g,''))||0}
+
+var COLUMN_ALIASES={
+'Nom de la campagne':'Campaign name',
+'Nom de l\'ensemble de publicités':'Ad set name',
+'Nom de la publicité':'Ad name',
+'Nom du groupe d\'annonces':'Ad group name',
+'Coût (EUR)':'Cost (EUR)',
+'Portée':'Reach',
+'Clics (tous)':'Clicks (all)',
+'CTR (tous)':'CTR (all)',
+'Fréquence':'Frequency',
+'CPM (coût pour 1000 impressions)':'CPM',
+'Prospects sur Facebook':'Facebook leads',
+'Cost per on-Facebook lead':'Cost per lead',
+'J\'aime la page':'Page likes',
+'Commentaires sur les publications':'Post comments',
+'Réactions aux publications':'Post reactions',
+'Partages de publications':'Post shares',
+'Enregistrements de publications':'Post saves',
+'Coût par conversion':'Cost per conversion',
+'Clics':'Clicks',
+'Conversion type name':'Conversion type',
+'Total conversion value':'Conversion value',
+'URL de la miniature de la création':'Ad creative thumbnail URL',
+'URL de l\'image de la création':'Ad creative image URL'
+};
+function normalizeRow(row){
+var out={};
+for(var k in row){
+if(!row.hasOwnProperty(k))continue;
+var nk=COLUMN_ALIASES[k]||k;
+out[nk]=row[k];
+}
+return out;
+}
+function normalizeRows(rows){
+if(!rows||!rows.length)return rows;
+var sample=rows[0],needsNorm=false;
+for(var k in sample){if(COLUMN_ALIASES[k]){needsNorm=true;break;}}
+if(!needsNorm)return rows;
+return rows.map(normalizeRow);
+}
+
 function detectType(name){const n=name.toLowerCase();for(const d of TYPE_DETECT){if(d.match.some(m=>n.includes(m)))return d.type}return'Autre'}
 function fmt(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n).toLocaleString('fr-FR'):String(Math.round(n))}
 function fmtE(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac'}
@@ -583,7 +626,7 @@ async function loadData(){
     const resp=await fetch(CSV_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
     if(!resp.ok)throw new Error('HTTP '+resp.status);
     const text=await resp.text();
-    const rows=parseCSV(text);
+    const rows=normalizeRows(parseCSV(text));
     if(rows.length===0)throw new Error('Aucune donnee');
     allRowsRaw=rows;
     processData(filterByRange(rows));
@@ -597,7 +640,7 @@ async function loadData(){
       const cResp=await fetch(CREA_URL+'&_t='+Date.now(),{redirect:'follow',credentials:'omit'});
       if(cResp.ok){
         const cText=await cResp.text();
-        const cAll=parseCSV(cText);
+        const cAll=normalizeRows(parseCSV(cText));
         creaRowsRaw=cAll;
         processCreaData(filterByRange(cAll));
         document.getElementById('statusText').textContent+=' + '+cAll.length+' lignes Creatives';
